@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: AlpEnDACOAIPMHserver 
+  labels:
+    app: symfony
+    scs: archive
+    community: AlpEnDAC
+    partner: lrz
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      scs: archive
+      community: AlpEnDAC
+  template:
+    metadata:
+      labels:
+        scs: archive 
+        community: AlpEnDAC
+    spec:
+      containers:
+      - name: oaipmhserver
+        image:  docker-registry.gerdi.research.lrz.de:5043/archive/oaipmhserver
+        ports:
+          - containerPort: 80
+      imagePullSecrets:
+      - name: lrz-docker-registry
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: AlpEnDACOAIPMHserver 
+  labels:
+    run: symfony 
+    scs: archive
+    community: AlpEnDAC
+    partner: lrz
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      protocol: TCP
+  selector:
+    scs: archive 
+    community: AlpEnDAC
