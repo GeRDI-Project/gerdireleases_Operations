@@ -31,7 +31,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: alpendace-oaipmhserver
+  name: alpendac-oaipmhserver
   labels:
     run: symfony 
     scs: archive
