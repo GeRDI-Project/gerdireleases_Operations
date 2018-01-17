@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: AlpEnDACOAIPMHserver 
+  name: alpendac-oaipmhserver
   labels:
     app: symfony
     scs: archive
@@ -31,7 +31,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: AlpEnDACOAIPMHserver 
+  name: alpendace-oaipmhserver
   labels:
     run: symfony 
     scs: archive
