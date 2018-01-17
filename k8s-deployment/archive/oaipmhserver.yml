@@ -25,7 +25,7 @@ spec:
         ports:
           - containerPort: 80
       imagePullSecrets:
-      - name: lrz-docker-registry
+      - name: lrz-docker-registry-secret
 
 ---
 apiVersion: v1
