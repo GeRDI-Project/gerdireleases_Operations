@@ -42,7 +42,7 @@ spec:
   ports:
     - port: 80
       protocol: TCP
-      targetPort: 1804
+      nodePort: 31804
   selector:
     scs: archive 
     community: AlpEnDAC
