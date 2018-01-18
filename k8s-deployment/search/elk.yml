@@ -69,32 +69,6 @@ spec:
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: kibana
-spec:
-  replicas: 1
-  template:
-     metadata:
-       name: kibana
-       labels:
-         service: search
-         app: kibana
-     spec:
-       containers:
-         - name: kibana
-           image: docker.elastic.co/kibana/kibana:6.1.2
-           ports:
-             - containerPort: 5601
-           env:
-             - name : ELASTICSEARCH_URL
-               value: http://elasticsearch-master.default.svc.cluster.local:9200
-             - name: xpack.monitoring.enabled
-               value: 'false'
-             - name: xpack.security.enabled
-               value: 'false'
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
   name: elasticsearch-master
 spec:
   replicas: 2
@@ -163,17 +137,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kibana
+  name: elasticsearch-data
 spec:
+  clusterIP: 10.222.21.10
   ports:
-  - port: 5601
-    targetPort: 5601
-    nodePort: 30000
+  - port: 9200
     protocol: TCP
   selector:
     service: search
-    app: kibana
-  type: NodePort
+    app: elasticsearch-data
 ---
 apiVersion: v1
 kind: Service
@@ -192,4 +164,3 @@ spec:
   selector:
     service: search
     app: elasticsearch-master
-
