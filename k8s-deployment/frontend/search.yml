@@ -12,14 +12,14 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: docker-registry.gerdi.research.lrz.de:5043/frontend/search
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/search:latest
           ports:
             - containerPort: 80
           resources:
             requests:
               memory: 256Mi
       imagePullSecrets:
-        - name: munich-regsecret
+        - name: lrz-docker-registry-secret
 ---
 apiVersion: v1
 kind: Service
