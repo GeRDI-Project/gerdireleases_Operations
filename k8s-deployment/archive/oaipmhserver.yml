@@ -24,9 +24,15 @@ spec:
         image:  docker-registry.gerdi.research.lrz.de:5043/archive/oaipmhserver
         ports:
           - containerPort: 80
+        volumeMounts:
+        - mountPath: /var/www/production.db
       imagePullSecrets:
       - name: lrz-docker-registry-secret
-
+      volumes:
+      - name: alpendac-database
+      hostPath:
+          path: /root/alpendac-irods-oaipmh_new.db 
+          type: File
 ---
 apiVersion: v1
 kind: Service
