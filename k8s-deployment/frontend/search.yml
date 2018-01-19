@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: search-frontend
+spec:
+  replicas: 2 # One instance for each worker node
+  template:
+    metadata:
+      labels:
+        app: search-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/search:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: 256Mi
+      imagePullSecrets:
+        - name: lrz-docker-registry-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: search-frontend
+spec:
+  ports:
+  - port: 80
+    nodePort: 32109
+    protocol: TCP
+  selector:
+    app: search-frontend
+  type: NodePort
