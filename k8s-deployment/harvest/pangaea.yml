@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pangaea-harvester 
+  labels:
+    app: pangaea-harvester 
+    scs: harvest
+    community: EREE 
+    partner: cau 
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pangaea-harvester
+  template:
+    metadata:
+      labels:
+        scs: harvest 
+        community: EREE
+        app: pangaea-harvester
+    spec:
+      containers:
+      - name: pangaea-harvester 
+        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/pangaea
+        ports:
+          - containerPort: 8080
+      imagePullSecrets:
+      - name: lrz-docker-registry-secret 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pangaea-harvester 
+  labels:
+    run: pangaea-harvester 
+    scs: harvest 
+    community: EREE 
+    partner: cau
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      protocol: TCP
+      nodePort: 31807
+  selector:
+    app: pangaea-harvester
