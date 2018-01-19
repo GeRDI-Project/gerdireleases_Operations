@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: pangaea-harvester 
-        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/pangaea
+        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/oaipmh
         ports:
           - containerPort: 8080
       imagePullSecrets:
