@@ -8,7 +8,7 @@ metadata:
     community: EREE 
     partner: cau 
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: faostat-harvester
