@@ -37,10 +37,9 @@ metadata:
     community: EREE 
     partner: cau
 spec:
-  type: NodePort
+  clusterIp: 10.222.21.12
   ports:
     - port: 8080
       protocol: TCP
-      nodePort: 31806
   selector:
     app: faostat-harvester
