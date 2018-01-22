@@ -37,7 +37,7 @@ metadata:
     community: EREE 
     partner: cau
 spec:
-  clusterIp: 10.222.21.12
+  clusterIP: 10.222.21.12
   ports:
     - port: 8080
       protocol: TCP
