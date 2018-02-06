@@ -40,10 +40,9 @@ kind: Service
 metadata:
   name: search-frontend
 spec:
+  clusterIP: 10.222.21.09
   ports:
   - port: 80
-    nodePort: 32109
     protocol: TCP
   selector:
     app: search-frontend
-  type: NodePort
