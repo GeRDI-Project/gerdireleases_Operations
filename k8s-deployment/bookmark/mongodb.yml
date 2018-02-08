@@ -15,14 +15,14 @@
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: select-db
+  name: bookmark-db
 spec:
-  serviceName: select-db
+  serviceName: bookmark-db
   replicas: 1
   template:
     metadata:
       labels:
-        app: select-db
+        app: bookmark-db
     spec:
       containers:
         - name: mongo
@@ -31,12 +31,12 @@ spec:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: select-mongo-pw
+                  name: bookmark-mongo-pw
                   key: username
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: select-mongo-pw
+                  name: bookmark-mongo-pw
                   key: password
           ports:
             - containerPort: 27017
@@ -51,28 +51,28 @@ spec:
           image: cvallance/mongo-k8s-sidecar
           env:
             - name: MONGO_SIDECAR_POD_LABELS
-              value: "app=select-db"
+              value: "app=bookmark-db"
             - name: MONGODB_DATABASE
               value: admin
             - name: MONGODB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: select-mongo-pw
+                  name: bookmark-mongo-pw
                   key: username
             - name: MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: select-mongo-pw
+                  name: bookmark-mongo-pw
                   key: password
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: select-db
+  name: bookmark-db
 spec:
   clusterIP: None
   ports:
   - port: 27017
     protocol: TCP
   selector:
-    app: select-db
+    app: bookmark-db

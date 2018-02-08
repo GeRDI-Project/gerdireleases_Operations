@@ -15,31 +15,31 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: select-persistance-api
+  name: bookmark-persistance-api
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: select-persistance-api
+        app: bookmark-persistance-api
     spec:
       containers:
         - name: api
-          image: docker-registry.gerdi.research.lrz.de:5043/select/persistance-api:latest
+          image: docker-registry.gerdi.research.lrz.de:5043/bookmark/persistance-api:latest
           env:
             - name: GERDI_ES_HOSTNAME
               value: elasticsearch-data.default.svc.cluster.local
-            - name: SELECT_MONGODB_DB_HOSTNAME
-              value: select-db-0.select-db.default.svc.cluster.local
-            - name: SELECT_MONGODB_USER_NAME
+            - name: BOOKMARK_MONGODB_DB_HOSTNAME
+              value: bookmark-db-0.bookmark-db.default.svc.cluster.local
+            - name: BOOKMARK_MONGODB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: select-mongo-pw
+                  name: bookmark-mongo-pw
                   key: username
-            - name: SELECT_MONGODB_PASSWORD
+            - name: BOOKMARK_MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: select-mongo-pw
+                  name: bookmark-mongo-pw
                   key: password
           ports:
             - containerPort: 4567
@@ -52,12 +52,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: select-persistance-api
+  name: bookmark-persistance-api
 spec:
   ports:
   - port: 4567
     nodePort: 32112
     protocol: TCP
   selector:
-    app: select-persistance-api
+    app: bookmark-persistance-api
   type: NodePort
