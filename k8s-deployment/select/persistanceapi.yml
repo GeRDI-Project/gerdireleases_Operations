@@ -13,66 +13,51 @@
 # limitations under the License.
 ---
 apiVersion: apps/v1beta1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: select-db
+  name: select-persistance-api
 spec:
-  serviceName: select-db
   replicas: 1
   template:
     metadata:
       labels:
-        app: select-db
+        app: select-persistance-api
     spec:
       containers:
-        - name: mongo
-          image: mongo:3.6.2
+        - name: api
+          image: docker-registry.gerdi.research.lrz.de:5043/select/persistance-api:latest
           env:
-            - name: MONGO_INITDB_ROOT_USERNAME
+            - name: GERDI_ES_HOSTNAME
+              value: elasticsearch-data.default.svc.cluster.local
+            - name: SELECT_MONGODB_DB_HOSTNAME
+              value: select-db-0.select-db.default.svc.cluster.local
+            - name: SELECT_MONGODB_USER_NAME
               valueFrom:
                 secretKeyRef:
                   name: select-mongo-pw
                   key: username
-            - name: MONGO_INITDB_ROOT_PASSWORD
+            - name: SELECT_MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: select-mongo-pw
                   key: password
           ports:
-            - containerPort: 27017
-          args:
-            - "--bind_ip_all"
-            - "--replSet"
-            - rs0
+            - containerPort: 4567
           resources:
             requests:
-              memory: 1Gi
-        - name: mongo-sidecar
-          image: cvallance/mongo-k8s-sidecar
-          env:
-            - name: MONGO_SIDECAR_POD_LABELS
-              value: "app=select-db"
-            - name: MONGODB_DATABASE
-              value: admin
-            - name: MONGODB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: select-mongo-pw
-                  key: username
-            - name: MONGODB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: select-mongo-pw
-                  key: password
+              memory: 512Mi
+      imagePullSecrets:
+        - name: lrz-docker-registry-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: select-db
+  name: select-persistance-api
 spec:
-  clusterIP: None
   ports:
-  - port: 27017
+  - port: 4567
+    nodePort: 32112
     protocol: TCP
   selector:
-    app: select-db
+    app: select-persistance-api
+  type: NodePort
