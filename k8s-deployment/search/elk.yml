@@ -1,4 +1,4 @@
-# Copyright 2018 Tobias Weber weber@lrz.de
+# Copyright 2018 Nelson Tavares de Sousa ntd@informatik.uni-kiel.de
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,12 +25,6 @@ spec:
         service: search
         app: elasticsearch-data
     spec:
-      initContainers:
-        - name: sysctl
-          image: busybox
-          command: ["sysctl", "-w", "vm.max_map_count=262144"] # Maybe this is feasible without initContainers?
-          securityContext:
-            privileged: true
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:6.1.2
@@ -92,12 +86,6 @@ spec:
         service: search
         app: elasticsearch-master
     spec:
-      initContainers:
-        - name: sysctl
-          image: busybox
-          command: ["sysctl", "-w", "vm.max_map_count=262144"] # Maybe this is feasible without initContainers?
-          securityContext:
-            privileged: true
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:6.1.2
