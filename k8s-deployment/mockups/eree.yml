@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: eree-mockup
-          image: docker-registry.gerdi.research.lrz.de:5043/mockup-eree:latest
+          image: docker-registry.gerdi.research.lrz.de:5043/showcase/mockup-eree:latest
           ports:
             - containerPort: 80
           resources:
