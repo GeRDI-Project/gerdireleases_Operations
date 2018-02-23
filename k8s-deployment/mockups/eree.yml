@@ -1,0 +1,48 @@
+# Copyright 2018 Nelson Tavares de Sousa ntd@informatik.uni-kiel.de
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: eree-mockup
+spec:
+  replicas: 2 # One instance for each worker node
+  template:
+    metadata:
+      labels:
+        app: eree-mockup
+    spec:
+      containers:
+        - name: eree-mockup
+          image: docker-registry.gerdi.research.lrz.de:5043/mockup-eree:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: 256Mi
+      imagePullSecrets:
+        - name: lrz-docker-registry-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eree-mockup
+spec:
+  ports:
+  - port: 80
+    nodePort: 32000
+    protocol: TCP
+  selector:
+    app: eree-mockup
+  type: NodePort
