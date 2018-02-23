@@ -15,17 +15,21 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: eree-mockup
+  name: tumor-mockup
+  labels:
+    scs: showcase
+    app: tumor-mockup
 spec:
   replicas: 2 # One instance for each worker node
   template:
     metadata:
       labels:
-        app: eree-mockup
+        scs: showcase
+        app: tumor-mockup
     spec:
       containers:
-        - name: eree-mockup
-          image: docker-registry.gerdi.research.lrz.de:5043/showcase/mockup-eree:latest
+        - name: tumor-mockup
+          image: docker-registry.gerdi.research.lrz.de:5043/showcase/mockup-tumor:latest
           ports:
             - containerPort: 80
           resources:
@@ -37,12 +41,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: eree-mockup
+  name: tumor-mockup
+  labels:
+    scs: showcase
+    app: tumor-mockup
 spec:
   ports:
   - port: 80
     nodePort: 32000
     protocol: TCP
   selector:
-    app: eree-mockup
+    scs: showcase
+    app: tumor-mockup
   type: NodePort
