@@ -15,21 +15,21 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: eree-mockup
+  name: showcase-eree
   labels:
     scs: showcase
-    app: eree-mockup
+    app: eree
 spec:
   replicas: 2 # One instance for each worker node
   template:
     metadata:
       labels:
         scs: showcase
-        app: eree-mockup
+        app: eree
     spec:
       containers:
-        - name: eree-mockup
-          image: docker-registry.gerdi.research.lrz.de:5043/showcase/mockup-eree:latest
+        - name: showcase-eree
+          image: docker-registry.gerdi.research.lrz.de:5043/showcase/eree:latest
           ports:
             - containerPort: 80
           resources:
@@ -41,10 +41,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: eree-mockup
+  name: showcase-eree
   labels:
     scs: showcase
-    app: eree-mockup
+    app: eree
 spec:
   ports:
   - port: 80
@@ -52,5 +52,5 @@ spec:
     protocol: TCP
   selector:
     scs: showcase
-    app: eree-mockup
+    app: eree
   type: NodePort

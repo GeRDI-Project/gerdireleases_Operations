@@ -15,21 +15,21 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: tumor-mockup
+  name: showcase-tumor
   labels:
     scs: showcase
-    app: tumor-mockup
+    app: tumor
 spec:
   replicas: 2 # One instance for each worker node
   template:
     metadata:
       labels:
         scs: showcase
-        app: tumor-mockup
+        app: tumor
     spec:
       containers:
-        - name: tumor-mockup
-          image: docker-registry.gerdi.research.lrz.de:5043/showcase/mockup-tumor:latest
+        - name: showcase-tumor
+          image: docker-registry.gerdi.research.lrz.de:5043/showcase/tumor:latest
           ports:
             - containerPort: 80
           resources:
@@ -41,16 +41,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tumor-mockup
+  name: showcase-tumor
   labels:
     scs: showcase
-    app: tumor-mockup
+    app: tumor
 spec:
   ports:
   - port: 80
-    nodePort: 32000
+    nodePort: 32001
     protocol: TCP
   selector:
     scs: showcase
-    app: tumor-mockup
+    app: tumor
   type: NodePort
