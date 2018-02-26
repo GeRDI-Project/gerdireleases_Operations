@@ -15,17 +15,17 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: bookmark-persistance-api
+  name: bookmark-persistence-api
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: bookmark-persistance-api
+        app: bookmark-persistence-api
     spec:
       containers:
         - name: api
-          image: docker-registry.gerdi.research.lrz.de:5043/bookmark/persistance-api:latest
+          image: docker-registry.gerdi.research.lrz.de:5043/bookmark/persistence-api:latest
           env:
             - name: GERDI_ES_HOSTNAME
               value: elasticsearch-data.default.svc.cluster.local
@@ -52,12 +52,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: bookmark-persistance-api
+  name: bookmark-persistence-api
 spec:
   ports:
   - port: 4567
     nodePort: 32112
     protocol: TCP
   selector:
-    app: bookmark-persistance-api
+    app: bookmark-persistence-api
   type: NodePort
