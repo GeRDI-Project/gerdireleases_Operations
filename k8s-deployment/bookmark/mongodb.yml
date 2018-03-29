@@ -18,7 +18,7 @@ metadata:
   name: bookmark-db
 spec:
   serviceName: bookmark-db
-  replicas: 1
+  replicas: 1 # MUST not be changed right now
   template:
     metadata:
       labels:
@@ -47,6 +47,9 @@ spec:
           resources:
             requests:
               memory: 1Gi
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongodb-volume
         - name: mongo-sidecar
           image: cvallance/mongo-k8s-sidecar
           env:
@@ -64,6 +67,11 @@ spec:
                 secretKeyRef:
                   name: bookmark-mongo-pw
                   key: password
+      volumes:
+      - name: mongodb-volume
+        hostPath:
+          path: /mnt/nfs/test/bookmark/mongodb
+          type: File
 ---
 apiVersion: v1
 kind: Service
