@@ -34,7 +34,7 @@ spec:
         app: ena-harvester
     spec:
       containers:
-      - name: oceantea-harvester
+      - name: ena-harvester
         image:  docker-registry.gerdi.research.lrz.de:5043/harvest/ena
         ports:
           - containerPort: 8080
