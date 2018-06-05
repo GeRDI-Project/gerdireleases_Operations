@@ -38,9 +38,9 @@ spec:
           - containerPort: 8080
         env:
         - name: GERDI_OAIPMH_HOSTURL
-          value: http://nd-1.ext.test.gerdi.org:31804/app.php/
+          value: "http://nd-1.ext.test.gerdi.org:31804/app.php/"
         - name: GERDI_OAIPMH_METADATAPREFIX
-          value: oai_dc
+          value: "oai_dc"
       imagePullSecrets:
       - name: lrz-docker-registry-secret 
 ---
