@@ -27,8 +27,7 @@ spec:
   template:
     metadata:
       labels:
-        scs: harvest 
-        community: EREE
+        scs: harvest
         app: alpendac-harvester
     spec:
       containers:
