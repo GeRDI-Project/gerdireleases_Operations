@@ -54,10 +54,9 @@ kind: Service
 metadata:
   name: bookmark-persistence-api
 spec:
+  clusterIP: 10.222.21.100
   ports:
   - port: 4567
-    nodePort: 32112
     protocol: TCP
   selector:
     app: bookmark-persistence-api
-  type: NodePort
