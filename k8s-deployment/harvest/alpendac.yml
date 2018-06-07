@@ -42,7 +42,7 @@ spec:
           value: "oai_dc"
         - name: GERDI_OAIPMH_FROM 
           value: ""
-        - name: GERDI_OAIPMH_TO
+        - name: GERDI_OAIPMH_UNTIL
           value: ""
       imagePullSecrets:
       - name: lrz-docker-registry-secret 
