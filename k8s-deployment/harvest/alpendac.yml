@@ -40,6 +40,10 @@ spec:
           value: "http://nd-1.ext.test.gerdi.org:31804/app.php/"
         - name: GERDI_OAIPMH_METADATAPREFIX
           value: "oai_dc"
+        - name: GERDI_OAIPMH_FROM 
+          value: ""
+        - name: GERDI_OAIPMH_TO
+          value: ""
       imagePullSecrets:
       - name: lrz-docker-registry-secret 
 ---
