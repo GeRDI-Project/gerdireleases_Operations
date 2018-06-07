@@ -19,8 +19,6 @@ metadata:
   labels:
     app: ena-harvester
     scs: harvest
-    community: CBG
-    partner: tud
 spec:
   replicas: 1
   selector:
@@ -30,7 +28,6 @@ spec:
     metadata:
       labels:
         scs: harvest
-        community: CBG
         app: ena-harvester
     spec:
       containers:
@@ -48,8 +45,6 @@ metadata:
   labels:
     run: ena-harvester
     scs: harvest
-    community: CBG
-    partner: tud
 spec:
   clusterIP: 10.222.21.16
   ports:
