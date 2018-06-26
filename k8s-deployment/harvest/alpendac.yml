@@ -45,6 +45,8 @@ spec:
         ports:
           - containerPort: 8080
         env:
+        - name: GERDI_SUBMISSION_URL
+          value: "http://elasticsearch-data.default.svc.cluster.local:9200/gerdi/metadata"
         - name: GERDI_OAIPMH_HOSTURL
           value: "http://alpendac-oaipmhserver.default.svc.cluster.local/app.php/"
         - name: GERDI_OAIPMH_METADATAPREFIX
