@@ -30,6 +30,15 @@ spec:
         scs: harvest
         app: alpendac-harvester
     spec:
+      initContainers:
+      - name: correct-permissions
+        image: busybox
+        securityContext:
+          privileged: true
+        command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+        volumeMounts:
+        - mountPath: /var/lib/jetty/cache/
+          name: alpendac-harvester-cache
       containers:
       - name: alpendac-harvester
         image:  docker-registry.gerdi.research.lrz.de:5043/harvest/oaipmh
@@ -51,8 +60,9 @@ spec:
       - name: lrz-docker-registry-secret 
       volumes:
       - name: alpendac-harvester-cache
-        path: /mnt/nfs/test/harvest/alpendac
-        type: DirectoryOrCreate
+        hostPath:
+            path: /mnt/nfs/test/harvest/alpendac
+            type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
