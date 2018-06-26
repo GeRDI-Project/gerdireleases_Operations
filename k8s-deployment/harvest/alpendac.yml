@@ -37,7 +37,7 @@ spec:
           - containerPort: 8080
         env:
         - name: GERDI_OAIPMH_HOSTURL
-          value: "http://nd-1.ext.test.gerdi.org:31804/app.php/"
+          value: "http://alpendac-oaipmhserver.default.svc.cluster.local/app.php/"
         - name: GERDI_OAIPMH_METADATAPREFIX
           value: "oai_dc"
         - name: GERDI_OAIPMH_FROM 
