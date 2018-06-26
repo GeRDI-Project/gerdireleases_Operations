@@ -52,7 +52,7 @@ spec:
       volumes:
       - name: ena-harvester-cache
         hostPath:
-            path: /mnt/nfs/test/harvest/ena
+            path: /mnt/nfs/test/harvest/ena-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

@@ -61,7 +61,7 @@ spec:
       volumes:
       - name: alpendac-harvester-cache
         hostPath:
-            path: /mnt/nfs/test/harvest/alpendac
+            path: /mnt/nfs/test/harvest/alpendac-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

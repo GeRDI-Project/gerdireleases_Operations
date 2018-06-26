@@ -55,7 +55,7 @@ spec:
       volumes:
       - name: faostat-harvester-cache
         hostPath:
-            path: /mnt/nfs/test/harvest/faostat
+            path: /mnt/nfs/test/harvest/faostat-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

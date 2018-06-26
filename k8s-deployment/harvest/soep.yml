@@ -52,7 +52,7 @@ spec:
       volumes:
       - name: soep-harvester-cache
         hostPath:
-            path: /mnt/nfs/test/harvest/soep
+            path: /mnt/nfs/test/harvest/soep-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

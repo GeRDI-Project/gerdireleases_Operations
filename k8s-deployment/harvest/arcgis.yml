@@ -55,7 +55,7 @@ spec:
       volumes:
       - name: arcgis-harvester-cache
         hostPath:
-            path: /mnt/nfs/test/harvest/arcgis
+            path: /mnt/nfs/test/harvest/arcgis-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
