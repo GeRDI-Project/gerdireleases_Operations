@@ -50,6 +50,10 @@ spec:
           resources:
             requests:
               memory: 1Gi
+              cpu: 1
+            limits:
+              memory: 1Gi
+              cpu: 1
           env:
             - name: http.max_content_length
               value: 100mb
@@ -125,6 +129,10 @@ spec:
           resources:
             requests:
               memory: 1Gi
+              cpu: 1
+            limits:
+              memory: 1Gi
+              cpu: 1
           env:
             - name: http.max_content_length
               value: 100mb
