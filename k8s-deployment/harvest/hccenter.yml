@@ -46,6 +46,13 @@ spec:
             value: "https"
           - name: "FORCE_SCRIPT_NAME"
             value: "/harvest/hccenter"
+        resources:
+            requests:
+                memory: "512Mi"
+                cpu:    "500m"
+            limits:
+                memory: "1Gi"
+                cpu:    "1"
       imagePullSecrets:
       - name: lrz-docker-registry-secret
 ---
