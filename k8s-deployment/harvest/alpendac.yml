@@ -44,8 +44,15 @@ spec:
           value: ""
         - name: GERDI_OAIPMH_UNTIL
           value: ""
+        volumeMounts:
+        - mountPath: /var/lib/jetty/cache/
+          name: alpendac-harvester-cache
       imagePullSecrets:
       - name: lrz-docker-registry-secret 
+      volumes:
+      - name: alpendac-harvester-cache
+        path: /mnt/nfs/test/harvest/alpendac
+        type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
