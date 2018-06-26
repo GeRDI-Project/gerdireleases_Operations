@@ -30,13 +30,30 @@ spec:
         scs: harvest
         app: ena-harvester
     spec:
+      initContainers:
+      - name: correct-permissions
+        image: busybox
+        securityContext:
+          privileged: true
+        command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+        volumeMounts:
+        - mountPath: /var/lib/jetty/cache/
+          name: ena-harvester-cache
       containers:
       - name: ena-harvester
         image:  docker-registry.gerdi.research.lrz.de:5043/harvest/ena
         ports:
           - containerPort: 8080
+        volumeMounts:
+        - mountPath: /var/lib/jetty/cache/
+          name: ena-harvester-cache
       imagePullSecrets:
       - name: lrz-docker-registry-secret
+      volumes:
+      - name: ena-harvester-cache
+        hostPath:
+            path: /mnt/nfs/test/harvest/ena-harvester
+            type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service

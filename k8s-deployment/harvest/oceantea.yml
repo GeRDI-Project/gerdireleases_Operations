@@ -33,13 +33,30 @@ spec:
         community: PALOZ
         app: oceantea-harvester
     spec:
+      initContainers:
+      - name: correct-permissions
+        image: busybox
+        securityContext:
+          privileged: true
+        command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+        volumeMounts:
+        - mountPath: /var/lib/jetty/cache/
+          name: oceantea-harvester-cache
       containers:
       - name: oceantea-harvester 
         image:  docker-registry.gerdi.research.lrz.de:5043/harvest/oceantea
         ports:
           - containerPort: 8080
+        volumeMounts:
+        - mountPath: /var/lib/jetty/cache/
+          name: oceantea-harvester-cache
       imagePullSecrets:
       - name: lrz-docker-registry-secret 
+      volumes:
+      - name: oceantea-harvester-cache
+        hostPath:
+            path: /mnt/nfs/test/harvest/oceantea-harvester
+            type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
