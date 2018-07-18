@@ -41,6 +41,10 @@ spec:
                 secretKeyRef:
                   name: bookmark-mongo-pw
                   key: password
+            resources:
+              limits:
+                memory: "128Mi"
+                cpu: "250m"
           ports:
             - containerPort: 4567
           resources:

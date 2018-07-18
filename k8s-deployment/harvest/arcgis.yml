@@ -49,6 +49,10 @@ spec:
           - containerPort: 8080
         volumeMounts:
         - mountPath: /var/lib/jetty/cache/
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
           name: arcgis-harvester-cache
       imagePullSecrets:
       - name: lrz-docker-registry-secret

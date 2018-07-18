@@ -31,7 +31,10 @@ spec:
             - containerPort: 80
           resources:
             requests:
-              memory: 256Mi
+              memory: "256Mi"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
 ---
