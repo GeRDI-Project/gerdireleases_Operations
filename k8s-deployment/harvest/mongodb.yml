@@ -49,7 +49,7 @@ spec:
               memory: "1Gi"
             limits:
               memory: "1Gi"
-              cpu: "128Mi"
+              cpu: "256Mi"
         - name: mongo-sidecar
           image: cvallance/mongo-k8s-sidecar
           env:
