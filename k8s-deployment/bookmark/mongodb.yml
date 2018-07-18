@@ -70,15 +70,15 @@ spec:
                 secretKeyRef:
                   name: bookmark-mongo-pw
                   key: password
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "250m"
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
       volumes:
-      - name: mongodb-volume
-        hostPath:
-          path: /mnt/nfs/test/bookmark/mongodb
-          type: File
+        - name: mongodb-volume
+          hostPath:
+            path: /mnt/nfs/test/bookmark/mongodb
+            type: File
 ---
 apiVersion: v1
 kind: Service
@@ -87,7 +87,7 @@ metadata:
 spec:
   clusterIP: None
   ports:
-  - port: 27017
-    protocol: TCP
+    - port: 27017
+      protocol: TCP
   selector:
     app: bookmark-db
