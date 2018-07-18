@@ -41,15 +41,14 @@ spec:
                 secretKeyRef:
                   name: bookmark-mongo-pw
                   key: password
-            resources:
-              limits:
-                memory: "128Mi"
-                cpu: "250m"
-          ports:
-            - containerPort: 4567
           resources:
             requests:
-              memory: 512Mi
+              memory: "512Mi"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 4567
       imagePullSecrets:
         - name: lrz-docker-registry-secret
 ---
@@ -60,7 +59,7 @@ metadata:
 spec:
   clusterIP: 10.222.21.100
   ports:
-  - port: 4567
-    protocol: TCP
+    - port: 4567
+      protocol: TCP
   selector:
     app: bookmark-persistence-api
