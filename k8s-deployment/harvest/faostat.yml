@@ -52,7 +52,7 @@ spec:
           name: faostat-harvester-cache
         resources:
           limits:
-            memory: "256Mi"
+            memory: "512Mi"
             cpu: "125m"
       imagePullSecrets:
       - name: lrz-docker-registry-secret
