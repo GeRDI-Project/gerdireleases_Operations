@@ -46,7 +46,10 @@ spec:
             - rs0
           resources:
             requests:
-              memory: 1Gi
+              memory: "1Gi"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           volumeMounts:
             - mountPath: /data/db
               name: mongodb-volume
@@ -67,6 +70,10 @@ spec:
                 secretKeyRef:
                   name: bookmark-mongo-pw
                   key: password
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
       volumes:
       - name: mongodb-volume
         hostPath:
