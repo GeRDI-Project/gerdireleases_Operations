@@ -49,8 +49,8 @@ spec:
           name: ena-harvester-cache
         resources:
           limits:
-            memory: "500Mi"
-            cpu: "500m"
+            memory: "128Mi"
+            cpu: "125m"
       imagePullSecrets:
       - name: lrz-docker-registry-secret
       volumes:
