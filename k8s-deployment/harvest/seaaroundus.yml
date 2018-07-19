@@ -52,7 +52,6 @@ spec:
           name: seaaroundus-harvester-cache
         resources:
           limits:
-            memory: "512Mi"
             cpu: "125m"
       imagePullSecrets:
       - name: lrz-docker-registry-secret 
