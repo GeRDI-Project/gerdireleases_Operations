@@ -35,7 +35,7 @@ spec:
           resources:
             limits:
               memory: "256Mi"
-              cpu: "125Mi"
+              cpu: "125m"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
 ---
