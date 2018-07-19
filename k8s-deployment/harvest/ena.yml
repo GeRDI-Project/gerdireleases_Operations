@@ -31,27 +31,30 @@ spec:
         app: ena-harvester
     spec:
       initContainers:
-      - name: correct-permissions
-        image: busybox
-        securityContext:
-          privileged: true
-        command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: ena-harvester-cache
+        - name: correct-permissions
+          image: busybox
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: ena-harvester-cache
       containers:
-      - name: ena-harvester
-        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/ena
-        ports:
-          - containerPort: 8080
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: ena-harvester-cache
+        - name: ena-harvester
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/ena
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: ena-harvester-cache
+          resources:
+            limits:
+              cpu: "125m"
       imagePullSecrets:
-      - name: lrz-docker-registry-secret
+        - name: lrz-docker-registry-secret
       volumes:
-      - name: ena-harvester-cache
-        hostPath:
+        - name: ena-harvester-cache
+          hostPath:
             path: /mnt/nfs/test/harvest/ena-harvester
             type: DirectoryOrCreate
 ---

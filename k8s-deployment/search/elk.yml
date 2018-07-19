@@ -30,36 +30,40 @@ spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
+            - labelSelector:
+                matchExpressions:
+                  - key: app
                 operator: In
                 values:
-                - elasticsearch-data
-            topologyKey: kubernetes.io/hostname
+                  - elasticsearch-data
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:6.1.2
           securityContext:
-             privileged: true
-             capabilities:
-               add:
-                 - IPC_LOCK
+            privileged: true
+            capabilities:
+              add:
+                - IPC_LOCK
           ports:
             - containerPort: 9200
           resources:
             requests:
               memory: 1Gi
+              cpu: 1
+            limits:
+              memory: 1Gi
+              cpu: 1
           env:
             - name: http.max_content_length
               value: 100mb
             - name: ES_JAVA_OPTS
-              value : -Xms512m -Xmx512m
+              value: -Xms512m -Xmx512m
             - name: bootstrap.memory_lock # Swap is disabled on K8S
               value: 'false'
             - name: cluster.name
               value: gerdi-cluster
-            - name : http.host
+            - name: http.host
               value: 0.0.0.0
             - name: node.data
               value: 'true'
@@ -104,37 +108,41 @@ spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
                 values:
-                - elasticsearch-master
-            topologyKey: kubernetes.io/hostname
+                  - elasticsearch-master
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:6.1.2
           securityContext:
-             privileged: true
-             capabilities:
-               add:
-                 - IPC_LOCK
+            privileged: true
+            capabilities:
+              add:
+                - IPC_LOCK
           ports:
             - containerPort: 9200
             - containerPort: 9300
           resources:
             requests:
               memory: 1Gi
+              cpu: 1
+            limits:
+              memory: 1Gi
+              cpu: 1
           env:
             - name: http.max_content_length
               value: 100mb
             - name: ES_JAVA_OPTS
-              value : -Xms512m -Xmx512m
+              value: -Xms512m -Xmx512m
             - name: bootstrap.memory_lock # Swap is disabled on K8S
               value: 'false'
             - name: cluster.name
               value: gerdi-cluster
-            - name : http.host
+            - name: http.host
               value: 0.0.0.0
             - name: node.data
               value: 'false'
@@ -168,8 +176,8 @@ metadata:
 spec:
   clusterIP: 10.222.21.10
   ports:
-  - port: 9200
-    protocol: TCP
+    - port: 9200
+      protocol: TCP
   selector:
     service: search
     app: elasticsearch-data
@@ -180,14 +188,14 @@ metadata:
   name: elasticsearch-master
 spec:
   ports:
-  - name: rest
-    port: 9200
-    targetPort: 9200
-    protocol: TCP
-  - name: nodes
-    port: 9300
-    targetPort: 9300
-    protocol: TCP
+    - name: rest
+      port: 9200
+      targetPort: 9200
+      protocol: TCP
+    - name: nodes
+      port: 9300
+      targetPort: 9300
+      protocol: TCP
   selector:
     service: search
     app: elasticsearch-master
