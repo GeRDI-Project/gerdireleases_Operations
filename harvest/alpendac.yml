@@ -34,7 +34,7 @@ spec:
         - name: correct-permissions
           image: busybox
           securityContext:
-          privileged: true
+            privileged: true
           command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
           volumeMounts:
             - mountPath: /var/lib/jetty/cache/
