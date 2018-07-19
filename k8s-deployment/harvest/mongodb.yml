@@ -45,8 +45,6 @@ spec:
             - "--replSet"
             - rs0
           resources:
-            requests:
-              memory: "1Gi"
             limits:
               memory: "1Gi"
               cpu: "512Mi"
@@ -75,7 +73,7 @@ metadata:
 spec:
   clusterIP: None
   ports:
-  - port: 27017
-    protocol: TCP
+    - port: 27017
+      protocol: TCP
   selector:
     app: harvest-db

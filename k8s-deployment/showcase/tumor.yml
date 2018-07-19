@@ -32,8 +32,7 @@ spec:
           image: docker-registry.gerdi.research.lrz.de:5043/showcase/tumor:latest
           ports:
             - containerPort: 80
-       requests:
-              memory: "256Mi"
+          resources:
             limits:
               memory: "256Mi"
               cpu: "125Mi"
@@ -49,9 +48,9 @@ metadata:
     app: tumor
 spec:
   ports:
-  - port: 80
-    nodePort: 32001
-    protocol: TCP
+    - port: 80
+      nodePort: 32001
+      protocol: TCP
   selector:
     scs: showcase
     app: tumor

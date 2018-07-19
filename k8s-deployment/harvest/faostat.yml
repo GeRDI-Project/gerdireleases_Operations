@@ -15,12 +15,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: faostat-harvester 
+  name: faostat-harvester
   labels:
-    app: faostat-harvester 
+    app: faostat-harvester
     scs: harvest
-    community: EREE 
-    partner: cau 
+    community: EREE
+    partner: cau
 spec:
   replicas: 1
   selector:
@@ -29,46 +29,46 @@ spec:
   template:
     metadata:
       labels:
-        scs: harvest 
+        scs: harvest
         community: EREE
         app: faostat-harvester
     spec:
       initContainers:
-      - name: correct-permissions
-        image: busybox
-        securityContext:
-          privileged: true
-        command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: faostat-harvester-cache
+        - name: correct-permissions
+          image: busybox
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: faostat-harvester-cache
       containers:
-      - name: faostat-harvester 
-        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/faostat
-        ports:
-          - containerPort: 8080
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: faostat-harvester-cache
-        resources:
-          limits:
-            cpu: "125m"
+        - name: faostat-harvester
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/faostat
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: faostat-harvester-cache
+          resources:
+            limits:
+              cpu: "125m"
       imagePullSecrets:
-      - name: lrz-docker-registry-secret
+        - name: lrz-docker-registry-secret
       volumes:
-      - name: faostat-harvester-cache
-        hostPath:
+        - name: faostat-harvester-cache
+          hostPath:
             path: /mnt/nfs/test/harvest/faostat-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: faostat-harvester 
+  name: faostat-harvester
   labels:
-    run: faostat-harvester 
-    scs: harvest 
-    community: EREE 
+    run: faostat-harvester
+    scs: harvest
+    community: EREE
     partner: cau
 spec:
   clusterIP: 10.222.21.12

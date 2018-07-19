@@ -1,4 +1,4 @@
-# Copyright 2018 Ingo Thomsen int@informatik.uni-kiel.de 
+# Copyright 2018 Ingo Thomsen int@informatik.uni-kiel.de
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: oceantea-harvester 
+  name: oceantea-harvester
   labels:
-    app: oceantea-harvester 
+    app: oceantea-harvester
     scs: harvest
     community: PALOZ
-    partner: cau 
+    partner: cau
 spec:
   replicas: 1
   selector:
@@ -29,45 +29,45 @@ spec:
   template:
     metadata:
       labels:
-        scs: harvest 
+        scs: harvest
         community: PALOZ
         app: oceantea-harvester
     spec:
       initContainers:
-      - name: correct-permissions
-        image: busybox
-        securityContext:
-          privileged: true
-        command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: oceantea-harvester-cache
+        - name: correct-permissions
+          image: busybox
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: oceantea-harvester-cache
       containers:
-      - name: oceantea-harvester 
-        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/oceantea
-        ports:
-          - containerPort: 8080
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: oceantea-harvester-cache
-        resources:
-          limits:
-            cpu: "125m"
+        - name: oceantea-harvester
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oceantea
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: oceantea-harvester-cache
+          resources:
+            limits:
+              cpu: "125m"
       imagePullSecrets:
-      - name: lrz-docker-registry-secret 
+        - name: lrz-docker-registry-secret
       volumes:
-      - name: oceantea-harvester-cache
-        hostPath:
+        - name: oceantea-harvester-cache
+          hostPath:
             path: /mnt/nfs/test/harvest/oceantea-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: oceantea-harvester 
+  name: oceantea-harvester
   labels:
-    run: oceantea-harvester 
-    scs: harvest 
+    run: oceantea-harvester
+    scs: harvest
     community: PALOZ
     partner: cau
 spec:
