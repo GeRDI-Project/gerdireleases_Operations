@@ -15,12 +15,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pangaea-harvester 
+  name: pangaea-harvester
   labels:
-    app: pangaea-harvester 
+    app: pangaea-harvester
     scs: harvest
-    community: EREE 
-    partner: cau 
 spec:
   replicas: 1
   selector:
@@ -29,44 +27,44 @@ spec:
   template:
     metadata:
       labels:
-        scs: harvest 
-        community: EREE
+        scs: harvest
         app: pangaea-harvester
     spec:
       initContainers:
-      - name: correct-permissions
-        image: busybox
-        securityContext:
-          privileged: true
-        command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: pangaea-harvester-cache
+        - name: correct-permissions
+          image: busybox
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: pangaea-harvester-cache
       containers:
-      - name: pangaea-harvester 
-        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/oaipmh
-        ports:
-          - containerPort: 8080
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: pangaea-harvester-cache
+        - name: pangaea-harvester
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oaipmh
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: pangaea-harvester-cache
+          resources:
+            limits:
+              cpu: "125m"
       imagePullSecrets:
-      - name: lrz-docker-registry-secret 
+        - name: lrz-docker-registry-secret
       volumes:
-      - name: pangaea-harvester-cache
-        hostPath:
+        - name: pangaea-harvester-cache
+          hostPath:
             path: /mnt/nfs/test/harvest/pangaea-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pangaea-harvester 
+  name: pangaea-harvester
   labels:
-    run: pangaea-harvester 
-    scs: harvest 
-    community: EREE 
-    partner: cau
+    run: pangaea-harvester
+    scs: harvest
 spec:
   clusterIP: 10.222.21.13
   ports:

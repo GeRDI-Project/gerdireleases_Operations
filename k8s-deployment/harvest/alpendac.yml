@@ -15,9 +15,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: alpendac-harvester 
+  name: alpendac-harvester
   labels:
-    app: alpendac-harvester 
+    app: alpendac-harvester
     scs: harvest
 spec:
   replicas: 1
@@ -31,47 +31,50 @@ spec:
         app: alpendac-harvester
     spec:
       initContainers:
-      - name: correct-permissions
-        image: busybox
-        securityContext:
+        - name: correct-permissions
+          image: busybox
+          securityContext:
           privileged: true
-        command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: alpendac-harvester-cache
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: alpendac-harvester-cache
       containers:
-      - name: alpendac-harvester
-        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/oaipmh
-        ports:
-          - containerPort: 8080
-        env:
-        - name: GERDI_OAIPMH_SUBMISSION_URL
-          value: "http://elasticsearch-data.default.svc.cluster.local:9200/gerdi/metadata"
-        - name: GERDI_OAIPMH_HOSTURL
-          value: "http://alpendac-oaipmhserver.default.svc.cluster.local/app.php/"
-        - name: GERDI_OAIPMH_METADATAPREFIX
-          value: "oai_dc"
-        - name: GERDI_OAIPMH_FROM 
-          value: ""
-        - name: GERDI_OAIPMH_UNTIL
-          value: ""
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: alpendac-harvester-cache
+        - name: alpendac-harvester
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oaipmh
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GERDI_OAIPMH_SUBMISSIONURL
+              value: "http://elasticsearch-data.default.svc.cluster.local:9200/gerdi/metadata"
+            - name: GERDI_OAIPMH_HOSTURL
+              value: "http://alpendac-oaipmhserver.default.svc.cluster.local/app.php/"
+            - name: GERDI_OAIPMH_METADATAPREFIX
+              value: "oai_dc"
+            - name: GERDI_OAIPMH_FROM
+              value: ""
+            - name: GERDI_OAIPMH_UNTIL
+              value: ""
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: alpendac-harvester-cache
+          resources:
+            limits:
+              cpu: "125m"
       imagePullSecrets:
-      - name: lrz-docker-registry-secret 
+        - name: lrz-docker-registry-secret
       volumes:
-      - name: alpendac-harvester-cache
-        hostPath:
+        - name: alpendac-harvester-cache
+          hostPath:
             path: /mnt/nfs/test/harvest/alpendac-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: alpendac-harvester 
+  name: alpendac-harvester
   labels:
-    run: alpendac-harvester 
+    run: alpendac-harvester
     scs: harvest
 spec:
   clusterIP: 10.222.21.17

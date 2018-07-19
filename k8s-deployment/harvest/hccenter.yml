@@ -15,46 +15,53 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hccenter 
+  name: hccenter
   labels:
-    app: hccenter 
+    app: hccenter
     scs: harvest
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hccenter 
+      app: hccenter
   template:
     metadata:
       labels:
         scs: harvest
-        app: hccenter 
+        app: hccenter
     spec:
       containers:
-      - name: hccenter 
-        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/hccenter
-        ports:
-          - containerPort: 80
-        env:
-          - name: "DEBUG"
-            value: "False"
-          - name: "ALLOWED_HOSTS"
-            value: "10.222.21.22,www.test.gerdi.org"
-          - name: "HTTP_X_FORWARDED_PROTO"
-            value: "True"
-          - name: "SECURE_PROXY_SSL_HEADER"
-            value: "https"
-          - name: "FORCE_SCRIPT_NAME"
-            value: "/harvest/hccenter"
+        - name: hccenter
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/hccenter
+          ports:
+            - containerPort: 80
+          env:
+            - name: "DEBUG"
+              value: "False"
+            - name: "ALLOWED_HOSTS"
+              value: "10.222.21.22,www.test.gerdi.org"
+            - name: "HTTP_X_FORWARDED_PROTO"
+              value: "True"
+            - name: "SECURE_PROXY_SSL_HEADER"
+              value: "https"
+            - name: "FORCE_SCRIPT_NAME"
+              value: "/harvest/hccenter"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "125m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
       imagePullSecrets:
-      - name: lrz-docker-registry-secret
+        - name: lrz-docker-registry-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hccenter 
+  name: hccenter
   labels:
-    run: hccenter 
+    run: hccenter
     scs: harvest
 spec:
   clusterIP: 10.222.21.22
@@ -62,4 +69,4 @@ spec:
     - port: 80
       protocol: TCP
   selector:
-    app: hccenter 
+    app: hccenter

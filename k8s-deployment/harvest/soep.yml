@@ -15,9 +15,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: soep-harvester 
+  name: soep-harvester
   labels:
-    app: soep-harvester 
+    app: soep-harvester
     scs: harvest
 spec:
   replicas: 1
@@ -27,40 +27,43 @@ spec:
   template:
     metadata:
       labels:
-        scs: harvest 
+        scs: harvest
         app: soep-harvester
     spec:
       initContainers:
-      - name: correct-permissions
-        image: busybox
-        securityContext:
-          privileged: true
-        command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: soep-harvester-cache
+        - name: correct-permissions
+          image: busybox
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: soep-harvester-cache
       containers:
-      - name: soep-harvester 
-        image:  docker-registry.gerdi.research.lrz.de:5043/harvest/soep
-        ports:
-          - containerPort: 8080
-        volumeMounts:
-        - mountPath: /var/lib/jetty/cache/
-          name: soep-harvester-cache
+        - name: soep-harvester
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/soep
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: soep-harvester-cache
+          resources:
+            limits:
+              cpu: "125m"
       imagePullSecrets:
-      - name: lrz-docker-registry-secret 
+        - name: lrz-docker-registry-secret
       volumes:
-      - name: soep-harvester-cache
-        hostPath:
+        - name: soep-harvester-cache
+          hostPath:
             path: /mnt/nfs/test/harvest/soep-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: soep-harvester 
+  name: soep-harvester
   labels:
-    run: soep-harvester 
+    run: soep-harvester
     scs: harvest
 spec:
   clusterIP: 10.222.21.18
