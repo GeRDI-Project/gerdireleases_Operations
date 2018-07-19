@@ -13,4 +13,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 echo "check for unvalid yml"
-yamllint --config-file tests/yamllint.conf k8s-deployment/*/*.yml
+yamllint --config-file tests/yamllint.conf */*.yml
