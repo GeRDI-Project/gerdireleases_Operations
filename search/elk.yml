@@ -89,6 +89,8 @@ spec:
               value: '2'
             - name: discovery.zen.ping.unicast.hosts
               value: elasticsearch-master.default.svc.cluster.local
+            - name: action.auto_create_index
+              value: 'false' # disable automatic creation of an index, if it does not exist upon harvesting
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -168,6 +170,8 @@ spec:
               value: '2'
             - name: discovery.zen.ping.unicast.hosts
               value: elasticsearch-master.default.svc.cluster.local
+            - name: action.auto_create_index
+              value: 'false' # disable automatic creation of an index, if it does not exist upon harvesting
 ---
 apiVersion: v1
 kind: Service
