@@ -30,8 +30,7 @@ spec:
             - name: HOST
               value: http://elasticsearch-data.default.svc.cluster.local:9200
           resources:
-            limits:
-              memory: "128Mi"
+            requests:
               cpu: "125m"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
