@@ -128,7 +128,7 @@ spec:
           resources:
             requests:
               memory: "1Gi"
-              cpu: "500m" 
+              cpu: "500m"
           env:
             - name: http.max_content_length
               value: 100mb
