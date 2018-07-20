@@ -49,11 +49,8 @@ spec:
             - containerPort: 9200
           resources:
             requests:
-              memory: 1Gi
-              cpu: 1
-            limits:
-              memory: 1Gi
-              cpu: 1
+              memory: "1Gi"
+              cpu: "500m"
           env:
             - name: http.max_content_length
               value: 100mb
@@ -130,11 +127,8 @@ spec:
             - containerPort: 9300
           resources:
             requests:
-              memory: 1Gi
-              cpu: 1
-            limits:
-              memory: 1Gi
-              cpu: 1
+              memory: "1Gi"
+              cpu: "500m" 
           env:
             - name: http.max_content_length
               value: 100mb
