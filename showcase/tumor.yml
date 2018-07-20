@@ -32,12 +32,13 @@ spec:
           image: docker-registry.gerdi.research.lrz.de:5043/showcase/tumor:latest
           ports:
             - containerPort: 80
-          requests:
-            memory: "0"
-            cpu: "0"
-          limits:
-            memory: "500Mi"
-            cpu: "500m"
+          resources:
+            requests:
+              memory: "0"
+              cpu: "0"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
 ---
