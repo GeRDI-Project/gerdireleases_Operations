@@ -30,7 +30,7 @@ spec:
           ports:
             - containerPort: 80
           resources:
-            limits:
+            requests:
               memory: "256Mi"
               cpu: "500m"
       imagePullSecrets:

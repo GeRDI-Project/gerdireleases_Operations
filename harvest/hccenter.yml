@@ -48,8 +48,8 @@ spec:
               value: "/harvest/hccenter"
           resources:
             requests:
-              memory: "512Mi"
-              cpu: "125m"
+              memory: "0"
+              cpu: "0"
             limits:
               memory: "1Gi"
               cpu: "1"

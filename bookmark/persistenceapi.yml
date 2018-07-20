@@ -44,9 +44,7 @@ spec:
           resources:
             requests:
               memory: "512Mi"
-            limits:
-              memory: "512Mi"
-              cpu: "250m"
+              cpu: "500m"
           ports:
             - containerPort: 4567
       imagePullSecrets:

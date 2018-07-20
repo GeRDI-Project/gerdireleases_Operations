@@ -47,8 +47,6 @@ spec:
           resources:
             requests:
               memory: "1Gi"
-            limits:
-              memory: "1Gi"
               cpu: "500m"
           volumeMounts:
             - mountPath: /data/db
