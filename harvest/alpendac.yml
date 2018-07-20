@@ -59,6 +59,8 @@ spec:
             - mountPath: /var/lib/jetty/cache/
               name: alpendac-harvester-cache
           resources:
+            requests:
+              cpu: "0m"
             limits:
               cpu: "125m"
       imagePullSecrets:
