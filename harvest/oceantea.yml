@@ -48,8 +48,12 @@ spec:
             - mountPath: /var/lib/jetty/cache/
               name: oceantea-harvester-cache
           resources:
+            requests:
+              cpu: "0"
+              memory: "0"
             limits:
-              cpu: "125m"
+              cpu: "1"
+              memory: "1Gi"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
       volumes:
