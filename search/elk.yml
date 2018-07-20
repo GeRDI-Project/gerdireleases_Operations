@@ -33,9 +33,9 @@ spec:
             - labelSelector:
                 matchExpressions:
                   - key: app
-                operator: In
-                values:
-                  - elasticsearch-data
+                    operator: In
+                    values:
+                      - elasticsearch-data
               topologyKey: kubernetes.io/hostname
       containers:
         - name: elasticsearch
@@ -114,8 +114,8 @@ spec:
                 matchExpressions:
                   - key: app
                     operator: In
-                values:
-                  - elasticsearch-master
+                    values:
+                      - elasticsearch-master
               topologyKey: kubernetes.io/hostname
       containers:
         - name: elasticsearch
