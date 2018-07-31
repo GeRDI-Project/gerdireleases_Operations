@@ -46,6 +46,8 @@ spec:
               value: "https"
             - name: "FORCE_SCRIPT_NAME"
               value: "/harvest/hccenter"
+            - name: "SECRET_KEY"
+              value: "+&xtj3nqs5vh-gemy*3k@&q735&4puw4n#&dt&lx50f(%$*sdi"
           resources:
             requests:
               memory: "0"
