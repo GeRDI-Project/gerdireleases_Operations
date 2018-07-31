@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: hccenter
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/hccenter:1.0.0
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/hccenter:2.1.0
           ports:
             - containerPort: 80
           env:
@@ -46,6 +46,8 @@ spec:
               value: "https"
             - name: "FORCE_SCRIPT_NAME"
               value: "/harvest/hccenter"
+            - name: "SECRET_KEY"
+              value: "+&xtj3nqs5vh-gemy*3k@&q735&4puw4n#&dt&lx50f(%$*sdi"
           resources:
             requests:
               memory: "0"
