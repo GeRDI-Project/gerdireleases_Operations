@@ -52,7 +52,9 @@ spec:
             - mountPath: /data/db
               name: mongodb-volume
         - name: mongo-sidecar
-          image: cvallance/mongo-k8s-sidecar
+          # latest is the only available and viable tag, confirm:
+          # https://hub.docker.com/r/cvallance/mongo-k8s-sidecar/tags/
+          image: cvallance/mongo-k8s-sidecar:latest
           env:
             - name: MONGO_SIDECAR_POD_LABELS
               value: "app=bookmark-db"

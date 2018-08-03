@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: docker-registry.gerdi.research.lrz.de:5043/search/index-monitor:latest
+          image: docker-registry.gerdi.research.lrz.de:5043/search/index-monitor:0.2.0
           env:
             - name: HOST
               value: http://elasticsearch-data.default.svc.cluster.local:9200
