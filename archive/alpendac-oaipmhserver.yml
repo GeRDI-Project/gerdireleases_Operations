@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: oaipmhserver
-          image: docker-registry.gerdi.research.lrz.de:5043/archive/oaipmhserver
+          image: docker-registry.gerdi.research.lrz.de:5043/archive/oaipmhserver:0.2.0
           ports:
             - containerPort: 80
           volumeMounts:
