@@ -1,0 +1,78 @@
+# Copyright 2018 Ingo Thomsen int@informatik.uni-kiel.de
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oceantea-harvester
+  labels:
+    app: oceantea-harvester
+    scs: harvest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oceantea-harvester
+  template:
+    metadata:
+      labels:
+        scs: harvest
+        app: oceantea-harvester
+    spec:
+      initContainers:
+        - name: correct-permissions
+          image: busybox
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: oceantea-harvester-cache
+      containers:
+        - name: oceantea-harvester
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oceantea:0.2.6
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: oceantea-harvester-cache
+          resources:
+            requests:
+              cpu: "0"
+              memory: "0"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+      imagePullSecrets:
+        - name: lrz-docker-registry-secret
+      volumes:
+        - name: oceantea-harvester-cache
+          hostPath:
+            path: /mnt/nfs/test/harvest/oceantea-harvester
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oceantea-harvester
+  labels:
+    run: oceantea-harvester
+    scs: harvest
+spec:
+  clusterIP: 10.222.21.14
+  ports:
+    - port: 8080
+      protocol: TCP
+  selector:
+    app: oceantea-harvester
