@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: docker-registry.gerdi.research.lrz.de:5043/bookmark/persistence-api:latest
+          image: docker-registry.gerdi.research.lrz.de:5043/bookmark/persistence-api:0.2.0
           env:
             - name: GERDI_ES_HOSTNAME
               value: elasticsearch-data.default.svc.cluster.local
