@@ -41,7 +41,7 @@ spec:
               name: harvestercontrolcenter-harvester-cache
       containers:
         - name: harvestercontrolcenter-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/harvestercontrolcenter:0.3.0-test3
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/harvestercontrolcenter:0.3.0-test4
           ports:
             - containerPort: 8080
           volumeMounts:
