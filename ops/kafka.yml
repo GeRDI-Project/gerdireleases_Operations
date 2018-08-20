@@ -62,7 +62,7 @@ spec:
               memory: "1Gi"
               cpu: "0"
             limits:
-              memoty: "4Gi"
+              memory: "4Gi"
               cpu: "1"
           env:
             - name: KAFKA_ZOOKEEPER_CONNECT
