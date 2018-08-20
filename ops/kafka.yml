@@ -57,6 +57,13 @@ spec:
         - name: kafka
           imagePullPolicy: Always
           image: "wurstmeister/kafka:2.11-2.0.0"
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "0"
+            limits:
+              memoty: "4Gi"
+              cpu: "1"
           env:
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: zk-cs.default.svc.cluster.local:2181

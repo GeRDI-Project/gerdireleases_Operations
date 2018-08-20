@@ -74,6 +74,9 @@ spec:
             requests:
               memory: "1Gi"
               cpu: "0.5"
+            limits:
+              memoty: "4Gi"
+              cpu: "1"
           ports:
             - containerPort: 2181
               name: client
