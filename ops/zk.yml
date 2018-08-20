@@ -1,3 +1,5 @@
+# For original see: https://github.com/kubernetes/website/blob/master/content/en/examples/application/zookeeper/zookeeper.yaml
+# Documentation using this: https://kubernetes.io/docs/tutorials/stateful-application/zookeeper/ 
 ---
 apiVersion: v1
 kind: Service
