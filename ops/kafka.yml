@@ -80,7 +80,7 @@ spec:
             - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
               value: 'false'
             - name: KAFKA_CREATE_TOPICS
-              value: 'store:1:3'
+              value: 'store:1:3,storeService:1:3:compact'
           ports:
             - containerPort: 9092
               name: client
