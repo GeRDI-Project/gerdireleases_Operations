@@ -50,7 +50,7 @@ spec:
       volumes:
         - name: alpendac-database
           hostPath:
-            path: /mnt/nfs/test/archive/alpendac/alpendac-irods-oaipmh_new.db
+            path: /mnt/nfs/${DEPLOY_CONTEXT}/archive/alpendac/alpendac-irods-oaipmh_new.db
             type: File
 ---
 apiVersion: v1
