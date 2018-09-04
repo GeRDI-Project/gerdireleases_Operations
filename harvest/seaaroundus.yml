@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: seaaroundus-harvester-cache
           hostPath:
-            path: /mnt/nfs/test/harvest/seaaroundus-harvester
+            path: /local/nfs/harvest/seaaroundus-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

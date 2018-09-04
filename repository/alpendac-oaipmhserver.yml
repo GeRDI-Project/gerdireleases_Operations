@@ -1,5 +1,4 @@
-# Copyright 2018 Tobias Weber weber@lrz.de
-#
+# Copyright 2018 Tobias Weber weber@lrz.de #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -18,7 +17,7 @@ metadata:
   name: alpendac-oaipmhserver
   labels:
     app: alpendac-oaipmhserver
-    scs: archive
+    scs: repository
 spec:
   replicas: 1
   selector:
@@ -27,12 +26,12 @@ spec:
   template:
     metadata:
       labels:
-        scs: archive
+        scs: repository
         app: alpendac-oaipmhserver
     spec:
       containers:
         - name: oaipmhserver
-          image: docker-registry.gerdi.research.lrz.de:5043/archive/oaipmhserver:0.2.0
+          image: docker-registry.gerdi.research.lrz.de:5043/repository/oaipmhserver:0.2.0
           ports:
             - containerPort: 80
           volumeMounts:
@@ -50,7 +49,7 @@ spec:
       volumes:
         - name: alpendac-database
           hostPath:
-            path: /mnt/nfs/test/archive/alpendac/alpendac-irods-oaipmh_new.db
+            path: /local/nfs/archive/alpendac/alpendac-irods-oaipmh_new.db
             type: File
 ---
 apiVersion: v1
@@ -59,7 +58,7 @@ metadata:
   name: alpendac-oaipmhserver
   labels:
     run: alpendac-oaipmhserver
-    scs: archive
+    scs: repository
 spec:
   clusterIP: 10.222.13.1
   ports:
