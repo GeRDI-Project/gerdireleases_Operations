@@ -77,7 +77,7 @@ spec:
       volumes:
         - name: mongodb-volume
           hostPath:
-            path: /mnt/nfs/${DEPLOY_CONTEXT}/bookmark/mongodb
+            path: /local/nfs/bookmark/mongodb
             type: Directory
 ---
 apiVersion: v1

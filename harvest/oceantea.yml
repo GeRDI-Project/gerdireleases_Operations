@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: oceantea-harvester-cache
           hostPath:
-            path: /mnt/nfs/${DEPLOY_CONTEXT}/harvest/oceantea-harvester
+            path: /local/nfs/harvest/oceantea-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

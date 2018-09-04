@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: pangaea-harvester-cache
           hostPath:
-            path: /mnt/nfs/${DEPLOY_CONTEXT}/harvest/pangaea-harvester
+            path: /local/nfs/harvest/pangaea-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

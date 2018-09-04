@@ -132,5 +132,5 @@ spec:
       volumes:
         - name: datadir
           hostPath:
-            path: /mnt/nfs/${DEPLOY_CONTEXT}/ops/zookeeper
+            path: /local/nfs/ops/zookeeper
             type: Directory
