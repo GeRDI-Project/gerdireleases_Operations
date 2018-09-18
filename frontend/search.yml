@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: docker-registry.gerdi.research.lrz.de:5043/frontend/search:0.2.0
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/search:0.3.0-test1
           ports:
             - containerPort: 80
           resources:
