@@ -1,0 +1,78 @@
+# Copyright 2018 Robin Weiß (http://www.gerdi-project.de)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookmark-frontend
+  labels:
+    app: bookmark-frontend
+    scs: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookmark-frontend
+  template:
+    metadata:
+      labels:
+        scs: frontend
+        app: bookmark-frontend
+    spec:
+      initContainers:
+        - name: correct-permissions
+          image: busybox
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: bookmark-frontend-cache
+      containers:
+        - name: bookmark-frontend
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/bookmark:${bamboo.inject.tag.version}
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: bookmark-frontend-cache
+          resources:
+            requests:
+              cpu:    "0"
+              memory: "0"
+            limits:
+              cpu:    "1"
+              memory: "1Gi"
+      imagePullSecrets:
+        - name: lrz-docker-registry-secret
+      volumes:
+        - name: bookmark-frontend-cache
+          hostPath:
+            path: /mnt/nfs/test/frontend/bookmark-frontend
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookmark-frontend
+  labels:
+    run: bookmark-frontend
+    scs: frontend
+spec:
+  clusterIP: 10.222.21.23
+  ports:
+    - port: 8080
+      protocol: TCP
+  selector:
+    app: bookmark-frontend
