@@ -30,20 +30,11 @@ spec:
         scs: frontend
         app: bookmark-frontend
     spec:
-      initContainers:
-        - name: correct-permissions
-          image: busybox
-          securityContext:
-            privileged: true
-          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
-          volumeMounts:
-            - mountPath: /var/lib/jetty/cache/
-              name: bookmark-frontend-cache
       containers:
         - name: bookmark-frontend
           image: docker-registry.gerdi.research.lrz.de:5043/frontend/bookmark:0.3.0-test1
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           volumeMounts:
             - mountPath: /var/lib/jetty/cache/
               name: bookmark-frontend-cache
@@ -56,11 +47,6 @@ spec:
               memory: "1Gi"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
-      volumes:
-        - name: bookmark-frontend-cache
-          hostPath:
-            path: /mnt/nfs/test/frontend/bookmark-frontend
-            type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
@@ -72,7 +58,7 @@ metadata:
 spec:
   clusterIP: 10.222.21.23
   ports:
-    - port: 8080
+    - port: 80
       protocol: TCP
   selector:
     app: bookmark-frontend
