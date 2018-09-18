@@ -35,9 +35,6 @@ spec:
           image: docker-registry.gerdi.research.lrz.de:5043/frontend/bookmark:0.3.0-test1
           ports:
             - containerPort: 80
-          volumeMounts:
-            - mountPath: /var/lib/jetty/cache/
-              name: bookmark-frontend-cache
           resources:
             requests:
               cpu:    "0"
