@@ -41,7 +41,7 @@ spec:
               name: bookmark-frontend-cache
       containers:
         - name: bookmark-frontend
-          image: docker-registry.gerdi.research.lrz.de:5043/frontend/bookmark:${bamboo.inject.tag.version}
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/bookmark:0.3.0-test1
           ports:
             - containerPort: 8080
           volumeMounts:
