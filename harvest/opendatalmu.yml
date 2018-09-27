@@ -41,7 +41,7 @@ spec:
               name: opendatalmu-harvester-cache
       containers:
         - name: opendatalmu-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/opendatalmu:0.3.0-test2
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/opendatalmu:0.3.0-test3
           ports:
             - containerPort: 8080
           volumeMounts:
