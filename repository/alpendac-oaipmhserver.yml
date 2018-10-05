@@ -1,5 +1,4 @@
-# Copyright 2018 Jan Frömberg jan.froemberg@tu-dresden.de
-#
+# Copyright 2018 Tobias Weber weber@lrz.de #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -15,58 +14,55 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hccenter
+  name: alpendac-oaipmhserver
   labels:
-    app: hccenter
-    scs: harvest
+    app: alpendac-oaipmhserver
+    scs: repository
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hccenter
+      app: alpendac-oaipmhserver
   template:
     metadata:
       labels:
-        scs: harvest
-        app: hccenter
+        scs: repository
+        app: alpendac-oaipmhserver
     spec:
       containers:
-        - name: hccenter
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/harvestercontrolcenter:0.3.0-test8
+        - name: oaipmhserver
+          image: docker-registry.gerdi.research.lrz.de:5043/repository/oaipmhserver:0.2.0
           ports:
             - containerPort: 80
-          env:
-            - name: "DEBUG"
-              value: "False"
-            - name: "ALLOWED_HOSTS"
-              value: "10.222.21.22,www.test.gerdi.org,test.gerdi.org,www.staging.gerdi.org"
-            - name: "USE_X_FORWARDED_HOST"
-              value: "True"
-            - name: "SECURE_PROXY_SSL_HEADER"
-              value: "https"
-            - name: "FORCE_SCRIPT_NAME"
-              value: "/harvest/hccenter"
+          volumeMounts:
+            - mountPath: /var/www/production.db
+              name: alpendac-database
           resources:
             requests:
               memory: "0"
               cpu: "0"
             limits:
-              memory: "1Gi"
-              cpu: "1"
+              memory: "256Mi"
+              cpu: "500m"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
+      volumes:
+        - name: alpendac-database
+          hostPath:
+            path: /local/nfs/archive/alpendac/alpendac-irods-oaipmh_new.db
+            type: File
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hccenter
+  name: alpendac-oaipmhserver
   labels:
-    run: hccenter
-    scs: harvest
+    run: alpendac-oaipmhserver
+    scs: repository
 spec:
-  clusterIP: 10.222.21.22
+  clusterIP: 10.222.13.1
   ports:
     - port: 80
       protocol: TCP
   selector:
-    app: hccenter
+    app: alpendac-oaipmhserver

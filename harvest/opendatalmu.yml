@@ -1,4 +1,4 @@
-# Copyright 2018 Jan Frömberg jan.froemberg@tu-dresden.de
+# Copyright 2018 Tobias Weber (http://www.gerdi-project.de)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,20 +15,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ena-harvester
+  name: opendatalmu-harvester
   labels:
-    app: ena-harvester
+    app: opendatalmu-harvester
     scs: harvest
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ena-harvester
+      app: opendatalmu-harvester
   template:
     metadata:
       labels:
         scs: harvest
-        app: ena-harvester
+        app: opendatalmu-harvester
     spec:
       initContainers:
         - name: correct-permissions
@@ -38,15 +38,15 @@ spec:
           command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
           volumeMounts:
             - mountPath: /var/lib/jetty/cache/
-              name: ena-harvester-cache
+              name: opendatalmu-harvester-cache
       containers:
-        - name: ena-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/ena:0.3.0-test3
+        - name: opendatalmu-harvester
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/opendatalmu:0.3.0-test8
           ports:
             - containerPort: 8080
           volumeMounts:
             - mountPath: /var/lib/jetty/cache/
-              name: ena-harvester-cache
+              name: opendatalmu-harvester-cache
           resources:
             requests:
               cpu: "0"
@@ -57,22 +57,22 @@ spec:
       imagePullSecrets:
         - name: lrz-docker-registry-secret
       volumes:
-        - name: ena-harvester-cache
+        - name: opendatalmu-harvester-cache
           hostPath:
-            path: /local/nfs/harvest/ena-harvester
+            path: /mnt/nfs/test/harvest/opendatalmu-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ena-harvester
+  name: opendatalmu-harvester
   labels:
-    run: ena-harvester
+    run: opendatalmu-harvester
     scs: harvest
 spec:
-  clusterIP: 10.222.21.16
+  clusterIP: 10.222.21.20
   ports:
     - port: 8080
       protocol: TCP
   selector:
-    app: ena-harvester
+    app: opendatalmu-harvester

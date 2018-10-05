@@ -41,7 +41,7 @@ spec:
               name: oceantea-harvester-cache
       containers:
         - name: oceantea-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oceantea:0.2.6
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oceantea:0.3.0-test6
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: oceantea-harvester-cache
           hostPath:
-            path: /mnt/nfs/test/harvest/oceantea-harvester
+            path: /local/nfs/harvest/oceantea-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

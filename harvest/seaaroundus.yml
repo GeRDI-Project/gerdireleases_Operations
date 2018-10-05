@@ -41,7 +41,7 @@ spec:
               name: seaaroundus-harvester-cache
       containers:
         - name: seaaroundus-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/seaaroundus:0.2.7
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/seaaroundus:0.3.0-test3
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: seaaroundus-harvester-cache
           hostPath:
-            path: /mnt/nfs/test/harvest/seaaroundus-harvester
+            path: /local/nfs/harvest/seaaroundus-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

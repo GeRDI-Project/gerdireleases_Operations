@@ -41,7 +41,7 @@ spec:
               name: alpendac-harvester-cache
       containers:
         - name: alpendac-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oaipmh:0.2.6
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/alpendac:0.3.0-test4
           ports:
             - containerPort: 8080
           env:
@@ -70,7 +70,7 @@ spec:
       volumes:
         - name: alpendac-harvester-cache
           hostPath:
-            path: /mnt/nfs/test/harvest/alpendac-harvester
+            path: /local/nfs/harvest/alpendac-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

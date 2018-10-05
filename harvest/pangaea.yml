@@ -41,7 +41,7 @@ spec:
               name: pangaea-harvester-cache
       containers:
         - name: pangaea-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oaipmh:0.2.6
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/pangaea:0.3.0-test9
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: pangaea-harvester-cache
           hostPath:
-            path: /mnt/nfs/test/harvest/pangaea-harvester
+            path: /local/nfs/harvest/pangaea-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
