@@ -41,7 +41,7 @@ spec:
               name: soep-harvester-cache
       containers:
         - name: soep-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/soep:0.3.0-test3
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/soep:0.3.0-test4
           ports:
             - containerPort: 8080
           volumeMounts:
