@@ -41,7 +41,7 @@ spec:
               name: arcgis-harvester-cache
       containers:
         - name: arcgis-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/arcgis:0.3.0-test3
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/arcgis:0.3.0-rc1
           ports:
             - containerPort: 8080
           volumeMounts:
