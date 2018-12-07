@@ -1,0 +1,78 @@
+# Copyright 2018 Bamboo Agent (http://www.gerdi-project.de)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: store-webdav-frontend
+  labels:
+    app: store-webdav-frontend
+    scs: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: store-webdav-frontend
+  template:
+    metadata:
+      labels:
+        scs: frontend
+        app: store-webdav-frontend
+    spec:
+      initContainers:
+        - name: correct-permissions
+          image: busybox
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: store-webdav-frontend-cache
+      containers:
+        - name: store-webdav-frontend
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/store-webdav:0.4.0-test2
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: store-webdav-frontend-cache
+          resources:
+            requests:
+              cpu: "0"
+              memory: "0"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+      imagePullSecrets:
+        - name: lrz-docker-registry-secret
+      volumes:
+        - name: store-webdav-frontend-cache
+          hostPath:
+            path: /mnt/nfs/staging/frontend/store-webdav-frontend
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: store-webdav-frontend
+  labels:
+    run: store-webdav-frontend
+    scs: frontend
+spec:
+  clusterIP: 10.222.21.24
+  ports:
+    - port: 8080
+      protocol: TCP
+  selector:
+    app: store-webdav-frontend
