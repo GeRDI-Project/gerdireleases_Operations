@@ -24,8 +24,13 @@ spec:
         app: webdav-store
     spec:
       containers:
-        - name: api
-          image: docker-registry.gerdi.research.lrz.de:5043/store/webdav:0.3.0
+        - name: webdav-store
+          image: docker-registry.gerdi.research.lrz.de:5043/store/webdav:0.3.0-rc2
+          ports:
+            - containerPort: 5678
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: webdav-store-cache
           resources:
             requests:
               cpu: "0"
