@@ -53,8 +53,16 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "1"
+          volumeMounts:
+            - mountPath: /usr/src/app/db
+              name: hcc-db
       imagePullSecrets:
         - name: lrz-docker-registry-secret
+      volumes:
+        - name: hcc-db
+          hostPath:
+            path: /local/nfs/harvest/hcc
+            type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
