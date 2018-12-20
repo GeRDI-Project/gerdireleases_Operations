@@ -70,7 +70,7 @@ metadata:
     run: dwd-harvester
     scs: harvest
 spec:
-  clusterIP: 10.222.21.25
+  clusterIP: 10.222.21.27
   ports:
     - port: 8080
       protocol: TCP
