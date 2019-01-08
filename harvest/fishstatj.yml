@@ -41,7 +41,7 @@ spec:
               name: fishstatj-harvester-cache
       containers:
         - name: fishstatj-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/fishstatj:0.4.0-test2
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/fishstatj:0.4.0-test3
           ports:
             - containerPort: 8080
           volumeMounts:
