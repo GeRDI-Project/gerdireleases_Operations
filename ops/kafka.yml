@@ -26,6 +26,19 @@ spec:
   selector:
     app: kafka
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-jmx
+  labels:
+    app: kafka
+spec:
+  ports:
+    - port: 9997
+      name: jmx
+  selector:
+    app: kafka
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -83,6 +96,10 @@ spec:
               value: "hostname | awk -F '-' '{print $2}'"
             - name: KAFKA_CREATE_TOPICS
               value: 'store:1:3,storeService:1:3:compact'
+            - name: JMX_PORT
+              value: '9997'
           ports:
             - containerPort: 9092
               name: client
+            - containerPort: 9997
+              name: jmx
