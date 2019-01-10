@@ -70,7 +70,6 @@ metadata:
     run: elasticsearch-mapping-search
     scs: search
 spec:
-  clusterIP: 
   ports:
     - port: 8080
       protocol: TCP
