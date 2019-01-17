@@ -70,7 +70,6 @@ metadata:
     run: opendatalmu-harvester
     scs: harvest
 spec:
-  clusterIP: 10.222.21.20
   ports:
     - port: 8080
       protocol: TCP
