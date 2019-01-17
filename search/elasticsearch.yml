@@ -49,13 +49,13 @@ spec:
             - containerPort: 9200
           resources:
             requests:
-              memory: "1Gi"
+              memory: "4Gi"
               cpu: "500m"
           env:
             - name: http.max_content_length
               value: 100mb
             - name: ES_JAVA_OPTS
-              value: -Xms512m -Xmx512m
+              value: -Xms2048m -Xmx2048m
             - name: bootstrap.memory_lock # Swap is disabled on K8S
               value: 'false'
             - name: cluster.name
@@ -83,18 +83,16 @@ spec:
             - name: xpack.watcher.enabled
               value: 'false'
             - name: discovery.zen.minimum_master_nodes # See elasticsearch-master deployment
-              value: '2'
+              value: '1'
             - name: discovery.zen.ping.unicast.hosts
               value: elasticsearch-master.default.svc.cluster.local
-            - name: action.auto_create_index
-              value: 'false' # disable automatic creation of an index, if it does not exist upon harvesting
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: elasticsearch-master
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: elasticsearch-master
@@ -127,13 +125,13 @@ spec:
             - containerPort: 9300
           resources:
             requests:
-              memory: "1Gi"
+              memory: "4Gi"
               cpu: "500m"
           env:
             - name: http.max_content_length
               value: 100mb
             - name: ES_JAVA_OPTS
-              value: -Xms512m -Xmx512m
+              value: -Xms2048m -Xmx2048m
             - name: bootstrap.memory_lock # Swap is disabled on K8S
               value: 'false'
             - name: cluster.name
@@ -161,18 +159,15 @@ spec:
             - name: xpack.watcher.enabled
               value: 'false'
             - name: discovery.zen.minimum_master_nodes # Must be above half of the number of master nodes -> (spec.replicas / 2) + 1
-              value: '2'
+              value: '1'
             - name: discovery.zen.ping.unicast.hosts
               value: elasticsearch-master.default.svc.cluster.local
-            - name: action.auto_create_index
-              value: 'false' # disable automatic creation of an index, if it does not exist upon harvesting
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: elasticsearch-data
 spec:
-  clusterIP: 10.222.21.10
   ports:
     - port: 9200
       protocol: TCP
