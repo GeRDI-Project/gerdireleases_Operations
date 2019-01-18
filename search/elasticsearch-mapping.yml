@@ -41,7 +41,7 @@ spec:
               name: elasticsearch-mapping-search-cache
       containers:
         - name: elasticsearch-mapping-search
-          image: docker-registry.gerdi.research.lrz.de:5043/search/elasticsearch-mapping:0.3.0-rc1
+          image: docker-registry.gerdi.research.lrz.de:5043/search/elasticsearch-mapping:0.3.0-rc2
           ports:
             - containerPort: 8080
           volumeMounts:
