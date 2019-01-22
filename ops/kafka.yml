@@ -79,7 +79,7 @@ spec:
               cpu: "1"
           env:
             - name: KAFKA_ZOOKEEPER_CONNECT
-              value: zk-cs.default.svc.cluster.local:2181
+              value: zk-cs-1.default.svc.cluster.local:2181
             - name: GERDI_HOST_NAME
               valueFrom:
                 fieldRef:
