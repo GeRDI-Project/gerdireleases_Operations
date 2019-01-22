@@ -1,10 +1,56 @@
-# For original see: https://github.com/kubernetes/website/blob/master/content/en/examples/application/zookeeper/zookeeper.yaml
-# Documentation using this: https://kubernetes.io/docs/tutorials/stateful-application/zookeeper/
+# Copyright 2018 Nelson Tavares de Sousa ntd@informatik.uni-kiel.de
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: zookeeper-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper-1
+  template:
+    metadata:
+      labels:
+        service: common
+        app: zookeeper-1
+    spec:
+      containers:
+        - name: zk
+          image: zookeeper:3.4.13
+          ports:
+            - name: client
+              containerPort: 2181
+            - name: server
+              containerPort: 2888
+            - name: leader-election
+              containerPort: 3888
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: ZOO_MY_ID
+              value: "1"
+            - name: ZOO_SERVERS
+              value: server.1=0.0.0.0:2888:3888 server.2=zk-hs-2.default.svc.cluster.local:2888:3888 server.3=zk-hs-3.default.svc.cluster.local:2888:3888
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: zk-hs
+  name: zk-hs-1
   labels:
     app: zk
 spec:
@@ -13,14 +59,13 @@ spec:
       name: server
     - port: 3888
       name: leader-election
-  clusterIP: None
   selector:
-    app: zk
+    app: zookeeper-1
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: zk-cs
+  name: zk-cs-1
   labels:
     app: zk
 spec:
@@ -28,109 +73,130 @@ spec:
     - port: 2181
       name: client
   selector:
-    app: zk
+    app: zookeeper-1
 ---
-apiVersion: policy/v1beta1
-kind: PodDisruptionBudget
+apiVersion: apps/v1beta1
+kind: Deployment
 metadata:
-  name: zk-pdb
+  name: zookeeper-2
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: zk
-  maxUnavailable: 1
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: zk
-spec:
-  selector:
-    matchLabels:
-      app: zk
-  serviceName: zk-hs
-  replicas: 3
-  updateStrategy:
-    type: RollingUpdate
-  podManagementPolicy: Parallel
+      app: zookeeper-2
   template:
     metadata:
       labels:
-        app: zk
+        service: common
+        app: zookeeper-2
     spec:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: "app"
-                    operator: In
-                    values:
-                      - zk
-              topologyKey: "kubernetes.io/hostname"
       containers:
-        - name: kubernetes-zookeeper
-          imagePullPolicy: Always
-          image: "k8s.gcr.io/kubernetes-zookeeper:1.0-3.4.10"
+        - name: zk
+          image: zookeeper:3.4.13
+          ports:
+            - name: client
+              containerPort: 2181
+            - name: server
+              containerPort: 2888
+            - name: leader-election
+              containerPort: 3888
           resources:
             requests:
               memory: "1Gi"
-              cpu: "0.5"
-            limits:
-              memory: "4Gi"
-              cpu: "1"
+              cpu: "500m"
+          env:
+            - name: ZOO_MY_ID
+              value: "2"
+            - name: ZOO_SERVERS
+              value: server.1=zk-hs-1.default.svc.cluster.local:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zk-hs-3.default.svc.cluster.local:2888:3888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk-hs-2
+  labels:
+    app: zk
+spec:
+  ports:
+    - port: 2888
+      name: server
+    - port: 3888
+      name: leader-election
+  selector:
+    app: zookeeper-2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk-cs-2
+  labels:
+    app: zk
+spec:
+  ports:
+    - port: 2181
+      name: client
+  selector:
+    app: zookeeper-2
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: zookeeper-3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper-3
+  template:
+    metadata:
+      labels:
+        service: common
+        app: zookeeper-3
+    spec:
+      containers:
+        - name: zk
+          image: zookeeper:3.4.13
           ports:
-            - containerPort: 2181
-              name: client
-            - containerPort: 2888
-              name: server
-            - containerPort: 3888
-              name: leader-election
-          command:
-            - sh
-            - -c
-            - "start-zookeeper \
-              --servers=1 \
-              --data_dir=/var/lib/zookeeper/data \
-              --data_log_dir=/var/lib/zookeeper/data/log \
-              --conf_dir=/opt/zookeeper/conf \
-              --client_port=2181 \
-              --election_port=3888 \
-              --server_port=2888 \
-              --tick_time=2000 \
-              --init_limit=10 \
-              --sync_limit=5 \
-              --heap=512M \
-              --max_client_cnxns=60 \
-              --snap_retain_count=3 \
-              --purge_interval=12 \
-              --max_session_timeout=40000 \
-              --min_session_timeout=4000 \
-              --log_level=INFO"
-          readinessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - "zookeeper-ready 2181"
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
-          livenessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - "zookeeper-ready 2181"
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
-          volumeMounts:
-            - name: datadir
-              mountPath: /var/lib/zookeeper
-      securityContext:
-        runAsUser: 1000
-        fsGroup: 1000
-      volumes:
-        - name: datadir
-          hostPath:
-            path: /local/nfs/ops/zookeeper
-            type: Directory
+            - name: client
+              containerPort: 2181
+            - name: server
+              containerPort: 2888
+            - name: leader-election
+              containerPort: 3888
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: ZOO_MY_ID
+              value: "3"
+            - name: ZOO_SERVERS
+              value: server.1=zk-hs-1.default.svc.cluster.local:2888:3888 server.2=zk-hs-2.default.svc.cluster.local:2888:3888 server.3=0.0.0.0:2888:3888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk-hs-3
+  labels:
+    app: zk
+spec:
+  ports:
+    - port: 2888
+      name: server
+    - port: 3888
+      name: leader-election
+  selector:
+    app: zookeeper-3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk-cs-3
+  labels:
+    app: zk
+spec:
+  ports:
+    - port: 2181
+      name: client
+  selector:
+    app: zookeeper-3
