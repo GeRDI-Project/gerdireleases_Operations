@@ -1,0 +1,68 @@
+# Copyright 2018 Nelson Tavares de Sousa ntd@informatik.uni-kiel.de
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-config
+  labels:
+    app: logstash
+data:
+  test.conf: |
+    input {
+      kafka {
+        bootstrap_servers => "kafka-0.kafka-service.default.svc.cluster.local:9092,kafka-1.kafka-service.default.svc.cluster.local:9092,kafka-2.kafka-service.default.svc.cluster.local:9092"
+        topics => ["testtest"]
+      }
+    }
+    output {
+      elasticsearch {
+        hosts => ["elasticsearch-master.default.svc.cluster.local:9200"]
+        index => "test"
+      }
+    }
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: logstash
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        service: search
+        app: logstash
+    spec:
+      containers:
+        - name: logstash
+          image: docker.elastic.co/logstash/logstash:6.1.2
+          env:
+            - name: xpack.monitoring.enabled
+              value: "false"
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+          volumeMounts:
+            - name: config
+              mountPath: /usr/share/logstash/pipeline/test.conf
+              subPath: test.conf
+      volumes:
+        - name: config
+          configMap:
+            name: logstash-config
