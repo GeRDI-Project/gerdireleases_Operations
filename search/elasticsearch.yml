@@ -12,12 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: elasticsearch-data
 spec:
-  replicas: 2
+  replicas: 3
+  serviceName: elasticsearch-data-service
   selector:
     matchLabels:
       app: elasticsearch-data
@@ -60,6 +61,10 @@ spec:
               value: 'false'
             - name: cluster.name
               value: gerdi-cluster
+            - name: node.name
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: http.host
               value: 0.0.0.0
             - name: node.data
@@ -86,13 +91,25 @@ spec:
               value: '1'
             - name: discovery.zen.ping.unicast.hosts
               value: elasticsearch-master.default.svc.cluster.local
+          volumeMounts:
+            - name: elasticsearch-data-dir
+              mountPath: /usr/share/elasticsearch/data
+  volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data-dir
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 25Gi
 ---
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: elasticsearch-master
 spec:
-  replicas: 1
+  replicas: 1 # Do not increase this! See env vars below.
+  serviceName: elasticsearch-master-service
   selector:
     matchLabels:
       app: elasticsearch-master
@@ -136,6 +153,10 @@ spec:
               value: 'false'
             - name: cluster.name
               value: gerdi-cluster
+            - name: node.name
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: http.host
               value: 0.0.0.0
             - name: node.data
@@ -162,6 +183,17 @@ spec:
               value: '1'
             - name: discovery.zen.ping.unicast.hosts
               value: elasticsearch-master.default.svc.cluster.local
+          volumeMounts:
+            - name: elasticsearch-master-dir
+              mountPath: /usr/share/elasticsearch/data
+  volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-master-dir
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
 ---
 apiVersion: v1
 kind: Service
