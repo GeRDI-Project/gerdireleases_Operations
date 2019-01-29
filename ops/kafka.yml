@@ -103,3 +103,14 @@ spec:
               name: client
             - containerPort: 9997
               name: jmx
+          volumeMounts:
+            - name: kafka-log-dir
+              mountPath: /kafka
+  volumeClaimTemplates:
+    - metadata:
+        name: kafka-log-dir
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
