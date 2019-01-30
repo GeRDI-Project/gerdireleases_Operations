@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: kibana
-          image: docker.elastic.co/kibana/kibana:6.1.2
+          image: docker.elastic.co/kibana/kibana:6.6.0
           securityContext:
             privileged: true
             capabilities:
@@ -62,6 +62,8 @@ spec:
               value: 'true'
             - name: xpack.watcher.enabled
               value: 'false'
+            - name: xpack.monitoring.collection.enabled
+              value: 'true'
             - name: ELASTICSEARCH_URL
               value: http://elasticsearch-master.default.svc.cluster.local:9200
             - name: SERVER_BASEPATH
