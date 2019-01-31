@@ -41,7 +41,7 @@ spec:
               name: store-webdav-frontend-cache
       containers:
         - name: store-webdav-frontend
-          image: docker-registry.gerdi.research.lrz.de:5043/frontend/store-webdav:0.4.0-test2
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/store-webdav:0.3.0-rc1
           ports:
             - containerPort: 8080
           volumeMounts:
