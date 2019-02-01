@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: docker-registry.gerdi.research.lrz.de:5043/frontend/webdav-store:0.3.0
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/store-webdav:0.3.0
           ports:
             - containerPort: 80
           resources:
