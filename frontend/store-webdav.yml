@@ -1,4 +1,4 @@
-# Copyright 2018 Nelson Tavares de Sousa (http://www.gerdi-project.de)
+# Copyright 2018 Nelson Tavares de Sousa tavaresdesousa@email.uni-kiel.de
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,41 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: store-webdav-frontend
-  labels:
-    app: store-webdav-frontend
-    scs: frontend
+  name: webdav-store-ui
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: store-webdav-frontend
+  replicas: 2 # One instance for each worker node
   template:
     metadata:
       labels:
-        scs: frontend
-        app: store-webdav-frontend
+        app: webdav-store-ui
     spec:
-      initContainers:
-        - name: correct-permissions
-          image: busybox
-          securityContext:
-            privileged: true
-          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
-          volumeMounts:
-            - mountPath: /var/lib/jetty/cache/
-              name: store-webdav-frontend-cache
       containers:
-        - name: store-webdav-frontend
-          image: docker-registry.gerdi.research.lrz.de:5043/frontend/store-webdav:0.4.0-test1
+        - name: frontend
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/store-webdav:0.3.0
           ports:
-            - containerPort: 8080
-          volumeMounts:
-            - mountPath: /var/lib/jetty/cache/
-              name: store-webdav-frontend-cache
+            - containerPort: 80
           resources:
             requests:
               cpu: "0"
@@ -56,23 +37,15 @@ spec:
               memory: "1Gi"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
-      volumes:
-        - name: store-webdav-frontend-cache
-          hostPath:
-            path: /mnt/nfs/test/frontend/store-webdav-frontend
-            type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: store-webdav-frontend
-  labels:
-    run: store-webdav-frontend
-    scs: frontend
+  name: webdav-store-ui
 spec:
-  clusterIP: 10.222.21.24
+  clusterIP: 10.222.21.102
   ports:
-    - port: 8080
+    - port: 80
       protocol: TCP
   selector:
-    app: store-webdav-frontend
+    app: webdav-store-ui
