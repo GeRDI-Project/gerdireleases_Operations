@@ -47,4 +47,4 @@ spec:
     - port: 80
       protocol: TCP
   selector:
-    app: webdav-store-ui
+    app: jhub-store-ui
