@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: hccenter
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/harvestercontrolcenter:0.4.0-test9
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/harvestercontrolcenter:0.4.0-test10
           ports:
             - containerPort: 80
           env:
