@@ -14,20 +14,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: alpendac-oaipmhserver
+  name: oglp-oaipmhserver
   labels:
-    app: alpendac-oaipmhserver
+    app: oglp-oaipmhserver
     scs: repository
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: alpendac-oaipmhserver
+      app: oglp-oaipmhserver
   template:
     metadata:
       labels:
         scs: repository
-        app: alpendac-oaipmhserver
+        app: oglp-oaipmhserver
     spec:
       containers:
         - name: oaipmhserver
@@ -36,7 +36,7 @@ spec:
             - containerPort: 80
           volumeMounts:
             - mountPath: /var/www/production.db
-              name: alpendac-database
+              name: oglp-database
           resources:
             requests:
               memory: "0"
@@ -47,21 +47,21 @@ spec:
       imagePullSecrets:
         - name: lrz-docker-registry-secret
       volumes:
-        - name: alpendac-database
+        - name: oglp-database
           hostPath:
-            path: /local/nfs/repository/alpendac/alpendac-irods-oaipmh_new.db
+            path: /local/nfs/repository/oglp/oglp.db
             type: File
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: alpendac-oaipmhserver
+  name: oglp-oaipmhserver
   labels:
-    run: alpendac-oaipmhserver
+    run: oglp-oaipmhserver
     scs: repository
 spec:
   ports:
     - port: 80
       protocol: TCP
   selector:
-    app: alpendac-oaipmhserver
+    app: oglp-oaipmhserver
