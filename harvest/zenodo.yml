@@ -41,7 +41,7 @@ spec:
               name: zenodo-harvester-cache
       containers:
         - name: zenodo-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/zenodo:0.4.0-test6
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/zenodo:0.4.0-test7
           ports:
             - containerPort: 8080
           volumeMounts:
