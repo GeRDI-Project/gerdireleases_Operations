@@ -41,7 +41,7 @@ spec:
               name: imr-harvester-cache
       containers:
         - name: imr-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/imr:0.4.0-test4
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/imr:0.4.0-test5
           ports:
             - containerPort: 8080
           volumeMounts:
