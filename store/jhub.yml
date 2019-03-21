@@ -1,0 +1,57 @@
+# Copyright 2019 Nelson Tavares de Sousa ntd@informatik.uni-kiel.de
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: jhub-store
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: jhub-store
+    spec:
+      containers:
+        - name: api
+          image: docker-registry.gerdi.research.lrz.de:5043/store/jhub:0.4.0-test5
+          resources:
+            requests:
+              cpu: "0"
+              memory: "0"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          ports:
+            - containerPort: 5678
+          volumeMounts:
+            - mountPath: /mnt/nfs/nfs-test/
+              name: jhub-nfs-volumes
+      imagePullSecrets:
+        - name: lrz-docker-registry-secret
+      volumes:
+        - name: jhub-nfs-volumes
+          hostPath:
+            path: /mnt/nfs/nfs-test
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jhub-store
+spec:
+  ports:
+    - port: 5678
+      protocol: TCP
+  selector:
+    app: jhub-store
