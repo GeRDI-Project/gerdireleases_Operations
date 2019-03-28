@@ -41,7 +41,7 @@ spec:
               name: faostat-harvester-cache
       containers:
         - name: faostat-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/faostat:0.4.0-test9
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/faostat:0.4.0-test10
           ports:
             - containerPort: 8080
           volumeMounts:
