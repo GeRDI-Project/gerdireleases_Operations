@@ -41,7 +41,7 @@ spec:
               name: dwd-harvester-cache
       containers:
         - name: dwd-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/dwd:0.4.0-test7
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/dwd:0.4.0-test8
           ports:
             - containerPort: 8080
           volumeMounts:
