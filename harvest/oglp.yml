@@ -41,7 +41,7 @@ spec:
               name: oglp-harvester-cache
       containers:
         - name: oglp-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oglp:0.4.0-test2
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oglp:0.4.0-test3
           ports:
             - containerPort: 8080
           volumeMounts:
