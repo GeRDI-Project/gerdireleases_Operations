@@ -41,7 +41,7 @@ spec:
               name: webdav-store-cache
       containers:
         - name: webdav-store
-          image: docker-registry.gerdi.research.lrz.de:5043/store/webdav:0.3.0-rc7
+          image: docker-registry.gerdi.research.lrz.de:5043/store/webdav:0.3.0
           ports:
             - containerPort: 5678
           volumeMounts:
@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: webdav-store-cache
           hostPath:
-            path: /mnt/nfs/staging/store/webdav-store
+            path: /local/nfs/store/webdav-store
             type: DirectoryOrCreate
 ---
 apiVersion: v1
@@ -70,7 +70,6 @@ metadata:
     run: webdav-store
     scs: store
 spec:
-  clusterIP: 10.222.21.21
   ports:
     - port: 5678
       protocol: TCP

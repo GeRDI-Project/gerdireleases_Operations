@@ -172,7 +172,6 @@ kind: Service
 metadata:
   name: elasticsearch-data
 spec:
-  clusterIP: 10.222.21.10
   ports:
     - port: 9200
       protocol: TCP

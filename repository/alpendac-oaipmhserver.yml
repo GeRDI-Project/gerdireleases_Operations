@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: oaipmhserver
-          image: docker-registry.gerdi.research.lrz.de:5043/repository/oaipmhserver:0.2.0
+          image: docker-registry.gerdi.research.lrz.de:5043/repository/oaipmhserver:0.3.0
           ports:
             - containerPort: 80
           volumeMounts:
@@ -60,7 +60,6 @@ metadata:
     run: alpendac-oaipmhserver
     scs: repository
 spec:
-  clusterIP: 10.222.13.1
   ports:
     - port: 80
       protocol: TCP

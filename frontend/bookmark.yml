@@ -1,4 +1,4 @@
-# Copyright 2018 Robin Weiß (http://www.gerdi-project.de)
+# Copyright 2018 Robin Weiss (http://www.gerdi-project.de)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -53,7 +53,6 @@ metadata:
     run: bookmark-frontend
     scs: frontend
 spec:
-  clusterIP: 10.222.21.23
   ports:
     - port: 80
       protocol: TCP

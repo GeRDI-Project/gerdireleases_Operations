@@ -41,7 +41,7 @@ spec:
               name: oceantea-harvester-cache
       containers:
         - name: oceantea-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oceantea:0.3.0-rc1
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/oceantea:0.3.0
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -70,7 +70,6 @@ metadata:
     run: oceantea-harvester
     scs: harvest
 spec:
-  clusterIP: 10.222.21.14
   ports:
     - port: 8080
       protocol: TCP

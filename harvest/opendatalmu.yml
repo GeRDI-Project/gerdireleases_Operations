@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: opendatalmu-harvester-cache
           hostPath:
-            path: /mnt/nfs/production/harvest/opendatalmu-harvester
+            path: /local/nfs/harvest/opendatalmu-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1

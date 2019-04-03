@@ -64,7 +64,6 @@ metadata:
     run: hccenter
     scs: harvest
 spec:
-  clusterIP: 10.222.21.22
   ports:
     - port: 80
       protocol: TCP

@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: zenodo-harvester-cache
           hostPath:
-            path: /mnt/nfs/production/harvest/zenodo-harvester
+            path: /local/nfs/harvest/zenodo-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
