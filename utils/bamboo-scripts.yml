@@ -1,4 +1,4 @@
-# Copyright 2018 Robin Weiss row@informatik.uni-kiel.de
+# Copyright 2019 Tobias Weber (http://www.gerdi-project.de)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,20 +15,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: soep-harvester
+  name: bamboo-scripts-utils
   labels:
-    app: soep-harvester
-    scs: harvest
+    app: bamboo-scripts-utils
+    scs: utils
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: soep-harvester
+      app: bamboo-scripts-utils
   template:
     metadata:
       labels:
-        scs: harvest
-        app: soep-harvester
+        scs: utils
+        app: bamboo-scripts-utils
     spec:
       initContainers:
         - name: correct-permissions
@@ -38,15 +38,15 @@ spec:
           command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
           volumeMounts:
             - mountPath: /var/lib/jetty/cache/
-              name: soep-harvester-cache
+              name: bamboo-scripts-utils-cache
       containers:
-        - name: soep-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/soep:0.4.0-test9
+        - name: bamboo-scripts-utils
+          image: docker-registry.gerdi.research.lrz.de:5043/utils/bamboo-scripts:0.4.0-test1
           ports:
             - containerPort: 8080
           volumeMounts:
             - mountPath: /var/lib/jetty/cache/
-              name: soep-harvester-cache
+              name: bamboo-scripts-utils-cache
           resources:
             requests:
               cpu: "0"
@@ -57,21 +57,21 @@ spec:
       imagePullSecrets:
         - name: lrz-docker-registry-secret
       volumes:
-        - name: soep-harvester-cache
+        - name: bamboo-scripts-utils-cache
           hostPath:
-            path: /local/nfs/harvest/soep-harvester
+            path: /mnt/nfs/test/utils/bamboo-scripts-utils
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: soep-harvester
+  name: bamboo-scripts-utils
   labels:
-    run: soep-harvester
-    scs: harvest
+    run: bamboo-scripts-utils
+    scs: utils
 spec:
   ports:
     - port: 8080
       protocol: TCP
   selector:
-    app: soep-harvester
+    app: bamboo-scripts-utils

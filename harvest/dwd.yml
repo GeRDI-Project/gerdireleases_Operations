@@ -1,4 +1,4 @@
-# Copyright 2018 Jan Frömberg jan.froemberg@tu-dresden.de
+# Copyright 2018 Robin Weiß (http://www.gerdi-project.de)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,65 +15,63 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hccenter
+  name: dwd-harvester
   labels:
-    app: hccenter
+    app: dwd-harvester
     scs: harvest
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hccenter
+      app: dwd-harvester
   template:
     metadata:
       labels:
         scs: harvest
-        app: hccenter
+        app: dwd-harvester
     spec:
+      initContainers:
+        - name: correct-permissions
+          image: busybox
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: dwd-harvester-cache
       containers:
-        - name: hccenter
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/harvestercontrolcenter:0.4.0-test15
+        - name: dwd-harvester
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/dwd:0.4.0-test8
           ports:
-            - containerPort: 80
-          env:
-            - name: "DEBUG"
-              value: "False"
-            - name: "ALLOWED_HOSTS"
-              value: "10.222.21.22,www.test.gerdi.org,test.gerdi.org,www.demo.gerdi.org,demo.gerdi.org,www.staging.gerdi.org,staging.gerdi.org,www.canary.gerdi.org,canary.gerdi.org"
-            - name: "USE_X_FORWARDED_HOST"
-              value: "True"
-            - name: "SECURE_PROXY_SSL_HEADER"
-              value: "https"
-            - name: "FORCE_SCRIPT_NAME"
-              value: "/harvest/hccenter"
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/lib/jetty/cache/
+              name: dwd-harvester-cache
           resources:
             requests:
-              memory: "0"
               cpu: "0"
+              memory: "0"
             limits:
-              memory: "1Gi"
               cpu: "1"
-          volumeMounts:
-            - mountPath: /usr/src/app/db
-              name: hcc-db
+              memory: "1Gi"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
       volumes:
-        - name: hcc-db
+        - name: dwd-harvester-cache
           hostPath:
-            path: /local/nfs/harvest/hcc
+            path: /mnt/nfs/test/harvest/dwd-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hccenter
+  name: dwd-harvester
   labels:
-    run: hccenter
+    run: dwd-harvester
     scs: harvest
 spec:
   ports:
-    - port: 80
+    - port: 8080
       protocol: TCP
   selector:
-    app: hccenter
+    app: dwd-harvester

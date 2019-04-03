@@ -49,7 +49,7 @@ spec:
       volumes:
         - name: alpendac-database
           hostPath:
-            path: /local/nfs/archive/alpendac/alpendac-irods-oaipmh_new.db
+            path: /local/nfs/repository/alpendac/alpendac-irods-oaipmh_new.db
             type: File
 ---
 apiVersion: v1

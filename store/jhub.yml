@@ -1,4 +1,4 @@
-# Copyright 2018 Nelson Tavares de Sousa ntd@informatik.uni-kiel.de
+# Copyright 2019 Nelson Tavares de Sousa ntd@informatik.uni-kiel.de
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,17 +15,17 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: webdav-store
+  name: jhub-store
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: webdav-store
+        app: jhub-store
     spec:
       containers:
         - name: api
-          image: docker-registry.gerdi.research.lrz.de:5043/store/webdav:0.4.0-test1
+          image: docker-registry.gerdi.research.lrz.de:5043/store/jhub:0.4.0-test5
           resources:
             requests:
               cpu: "0"
@@ -35,17 +35,23 @@ spec:
               memory: "1Gi"
           ports:
             - containerPort: 5678
+          volumeMounts:
+            - mountPath: /mnt/nfs/nfs-test/
+              name: jhub-nfs-volumes
       imagePullSecrets:
         - name: lrz-docker-registry-secret
+      volumes:
+        - name: jhub-nfs-volumes
+          hostPath:
+            path: /mnt/nfs/nfs-test
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webdav-store
+  name: jhub-store
 spec:
-  clusterIP: 10.222.21.101
   ports:
     - port: 5678
       protocol: TCP
   selector:
-    app: webdav-store
+    app: jhub-store
