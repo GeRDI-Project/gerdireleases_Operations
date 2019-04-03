@@ -85,6 +85,7 @@ kind: Service
 metadata:
   name: bookmark-db
 spec:
+  clusterIP: None
   ports:
     - port: 27017
       protocol: TCP
