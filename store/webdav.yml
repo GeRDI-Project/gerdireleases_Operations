@@ -1,4 +1,4 @@
-# Copyright 2018 Robin Weiss (http://www.gerdi-project.de)
+# Copyright 2018 Nelson Tavares de Sousa (http://www.gerdi-project.de)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,20 +15,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zenodo-harvester
+  name: webdav-store
   labels:
-    app: zenodo-harvester
-    scs: harvest
+    app: webdav-store
+    scs: store
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zenodo-harvester
+      app: webdav-store
   template:
     metadata:
       labels:
-        scs: harvest
-        app: zenodo-harvester
+        scs: store
+        app: webdav-store
     spec:
       initContainers:
         - name: correct-permissions
@@ -38,15 +38,15 @@ spec:
           command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
           volumeMounts:
             - mountPath: /var/lib/jetty/cache/
-              name: zenodo-harvester-cache
+              name: webdav-store-cache
       containers:
-        - name: zenodo-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/zenodo:0.3.0
+        - name: webdav-store
+          image: docker-registry.gerdi.research.lrz.de:5043/store/webdav:0.3.0
           ports:
-            - containerPort: 8080
+            - containerPort: 5678
           volumeMounts:
             - mountPath: /var/lib/jetty/cache/
-              name: zenodo-harvester-cache
+              name: webdav-store-cache
           resources:
             requests:
               cpu: "0"
@@ -57,21 +57,21 @@ spec:
       imagePullSecrets:
         - name: lrz-docker-registry-secret
       volumes:
-        - name: zenodo-harvester-cache
+        - name: webdav-store-cache
           hostPath:
-            path: /local/nfs/harvest/zenodo-harvester
+            path: /local/nfs/store/webdav-store
             type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: zenodo-harvester
+  name: webdav-store
   labels:
-    run: zenodo-harvester
-    scs: harvest
+    run: webdav-store
+    scs: store
 spec:
   ports:
-    - port: 8080
+    - port: 5678
       protocol: TCP
   selector:
-    app: zenodo-harvester
+    app: webdav-store

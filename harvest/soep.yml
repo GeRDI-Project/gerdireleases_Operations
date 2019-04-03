@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: soep-harvester-cache
           hostPath:
-            path: /mnt/nfs/test/harvest/soep-harvester
+            path: /local/nfs/harvest/soep-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
@@ -70,7 +70,6 @@ metadata:
     run: soep-harvester
     scs: harvest
 spec:
-  clusterIP: 10.222.21.18
   ports:
     - port: 8080
       protocol: TCP

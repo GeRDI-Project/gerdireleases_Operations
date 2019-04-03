@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: ena-harvester-cache
           hostPath:
-            path: /mnt/nfs/test/harvest/ena-harvester
+            path: /local/nfs/harvest/ena-harvester
             type: DirectoryOrCreate
 ---
 apiVersion: v1
@@ -70,7 +70,6 @@ metadata:
     run: ena-harvester
     scs: harvest
 spec:
-  clusterIP: 10.222.21.16
   ports:
     - port: 8080
       protocol: TCP

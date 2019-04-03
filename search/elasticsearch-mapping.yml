@@ -1,4 +1,4 @@
-# Copyright 2019 Bamboo Agent (http://www.gerdi-project.de)
+# Copyright 2019 Nelson Tavares de Sousa ntd@informatik.uni-kiel.de
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,49 +30,14 @@ spec:
         scs: search
         app: elasticsearch-mapping-search
     spec:
-      initContainers:
-        - name: correct-permissions
-          image: busybox
-          securityContext:
-            privileged: true
-          command: ['sh', '-c', 'chown 100 /var/lib/jetty/cache']
-          volumeMounts:
-            - mountPath: /var/lib/jetty/cache/
-              name: elasticsearch-mapping-search-cache
       containers:
-        - name: elasticsearch-mapping-search
-          image: docker-registry.gerdi.research.lrz.de:5043/search/elasticsearch-mapping:0.2.0
-          ports:
-            - containerPort: 8080
-          volumeMounts:
-            - mountPath: /var/lib/jetty/cache/
-              name: elasticsearch-mapping-search-cache
+        - name: elasticsearch-mapping
+          image: docker-registry.gerdi.research.lrz.de:5043/search/elasticsearch-mapping:0.3.0
+          env:
+            - name: HOST
+              value: http://elasticsearch-data.default.svc.cluster.local:9200
           resources:
             requests:
-              cpu: "0"
-              memory: "0"
-            limits:
-              cpu: "1"
-              memory: "1Gi"
+              cpu: 125m
       imagePullSecrets:
         - name: lrz-docker-registry-secret
-      volumes:
-        - name: elasticsearch-mapping-search-cache
-          hostPath:
-            path: /mnt/nfs/production/search/elasticsearch-mapping-search
-            type: DirectoryOrCreate
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: elasticsearch-mapping-search
-  labels:
-    run: elasticsearch-mapping-search
-    scs: search
-spec:
-  clusterIP: 10.222.21.19
-  ports:
-    - port: 8080
-      protocol: TCP
-  selector:
-    app: elasticsearch-mapping-search

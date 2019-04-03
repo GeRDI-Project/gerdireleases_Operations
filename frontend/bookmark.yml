@@ -1,4 +1,4 @@
-# Copyright 2018 Tobias Weber weber@lrz.de
+# Copyright 2018 Robin Weiss (http://www.gerdi-project.de)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,52 +15,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: alpendac-oaipmhserver
+  name: bookmark-frontend
   labels:
-    app: alpendac-oaipmhserver
-    scs: archive
+    app: bookmark-frontend
+    scs: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: alpendac-oaipmhserver
+      app: bookmark-frontend
   template:
     metadata:
       labels:
-        scs: archive
-        app: alpendac-oaipmhserver
+        scs: frontend
+        app: bookmark-frontend
     spec:
       containers:
-        - name: oaipmhserver
-          image: docker-registry.gerdi.research.lrz.de:5043/archive/oaipmhserver:0.2.0
+        - name: bookmark-frontend
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/bookmark:0.3.0
           ports:
             - containerPort: 80
-          volumeMounts:
-            - mountPath: /var/www/production.db
-              name: alpendac-database
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "500m"
+              cpu: "0"
+              memory: "0"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
-      volumes:
-        - name: alpendac-database
-          hostPath:
-            path: /mnt/nfs/test/archive/alpendac/alpendac-irods-oaipmh_new.db
-            type: File
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: alpendac-oaipmhserver
+  name: bookmark-frontend
   labels:
-    run: alpendac-oaipmhserver
-    scs: archive
+    run: bookmark-frontend
+    scs: frontend
 spec:
-  clusterIP: 10.222.13.1
   ports:
     - port: 80
       protocol: TCP
   selector:
-    app: alpendac-oaipmhserver
+    app: bookmark-frontend
