@@ -41,7 +41,7 @@ spec:
               name: pangaea-harvester-cache
       containers:
         - name: pangaea-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/pangaea:0.4.0-test10
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/pangaea:0.5.0-test1
           ports:
             - containerPort: 8080
           volumeMounts:
