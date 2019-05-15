@@ -14,29 +14,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: oglp-oaipmhserver
+  name: oglp-oaipmh-server
   labels:
-    app: oglp-oaipmhserver
+    app: oglp-oaipmh-server
     scs: repository
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: oglp-oaipmhserver
+      app: oglp-oaipmh-server
   template:
     metadata:
       labels:
         scs: repository
-        app: oglp-oaipmhserver
+        app: oglp-oaipmh-server
     spec:
       containers:
-        - name: oaipmhserver
-          image: docker-registry.gerdi.research.lrz.de:5043/repository/oaipmhserver:0.3.0
+        - name: oaipmh-server
+          image: docker-registry.gerdi.research.lrz.de:5043/repository/oglp-oaipmh-server:0.3.0
           ports:
             - containerPort: 80
-          volumeMounts:
-            - mountPath: /var/www/production.db
-              name: oglp-database
           resources:
             requests:
               memory: "0"
@@ -46,22 +43,17 @@ spec:
               cpu: "500m"
       imagePullSecrets:
         - name: lrz-docker-registry-secret
-      volumes:
-        - name: oglp-database
-          hostPath:
-            path: /local/nfs/repository/oglp/oglp.db
-            type: File
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: oglp-oaipmhserver
+  name: oglp-oaipmh-server
   labels:
-    run: oglp-oaipmhserver
+    run: oglp-oaipmh-server
     scs: repository
 spec:
   ports:
     - port: 80
       protocol: TCP
   selector:
-    app: oglp-oaipmhserver
+    app: oglp-oaipmh-server
