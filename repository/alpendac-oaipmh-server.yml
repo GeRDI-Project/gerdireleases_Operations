@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: oaipmh-server
-          image: docker-registry.gerdi.research.lrz.de:5043/repository/alpendac-oaipmh-server:0.3.0
+          image: docker-registry.gerdi.research.lrz.de:5043/repository/alpendac-oaipmh-server:0.5.0-test1
           ports:
             - containerPort: 80
           resources:
