@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: bookmark-frontend
-          image: docker-registry.gerdi.research.lrz.de:5043/frontend/bookmark:0.5.0-test1
+          image: docker-registry.gerdi.research.lrz.de:5043/frontend/bookmark:0.5.0-test2
           ports:
             - containerPort: 80
           resources:
