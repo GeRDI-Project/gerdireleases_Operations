@@ -27,8 +27,6 @@ spec:
         - name: api
           image: docker-registry.gerdi.research.lrz.de:5043/bookmark/persistence-api:0.5.0-test1
           env:
-            - name: OPENID_JWK_ENDPOINT
-              value: https://unity.zih.tu-dresden.de:2443/oauth2/jwk
             - name: GERDI_ES_HOSTNAME
               value: elasticsearch-data.default.svc.cluster.local
             - name: BOOKMARK_MONGODB_DB_HOSTNAME
