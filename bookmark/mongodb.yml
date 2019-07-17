@@ -50,7 +50,8 @@ spec:
               cpu: "500m"
           volumeMounts:
             - mountPath: /data/db
-              name: mongodb-volume
+              name: bookmark-db-data
+
         - name: mongo-sidecar
           # latest is the only available and viable tag, confirm:
           # https://hub.docker.com/r/cvallance/mongo-k8s-sidecar/tags/
@@ -74,11 +75,16 @@ spec:
             requests:
               memory: "128Mi"
               cpu: "250m"
-      volumes:
-        - name: mongodb-volume
-          hostPath:
-            path: /local/nfs/bookmark/mongodb
-            type: Directory
+
+  volumeClaimTemplates:
+    - metadata:
+        name: bookmark-db-data
+      spec:
+        accessModes: 
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
 ---
 apiVersion: v1
 kind: Service
