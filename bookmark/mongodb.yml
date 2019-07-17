@@ -80,7 +80,7 @@ spec:
     - metadata:
         name: bookmark-db-data
       spec:
-        accessModes: 
+        accessModes:
           - ReadWriteOnce
         resources:
           requests:
