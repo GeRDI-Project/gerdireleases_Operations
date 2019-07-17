@@ -43,7 +43,6 @@ kind: Service
 metadata:
   name: webdav-store-ui
 spec:
-  clusterIP: 10.222.21.102
   ports:
     - port: 80
       protocol: TCP
