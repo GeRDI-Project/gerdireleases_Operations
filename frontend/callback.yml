@@ -31,7 +31,7 @@ spec:
         scs: frontend
     spec:
       containers:
-        - image: docker-registry.gerdi.research.lrz.de:5043/frontend/callback-test:unity-10
+        - image: docker-registry.gerdi.research.lrz.de:5043/frontend/callback-test:21
           name: callback-test-frontend
           ports:
             - containerPort: 80
