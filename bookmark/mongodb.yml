@@ -51,7 +51,6 @@ spec:
           volumeMounts:
             - mountPath: /data/db
               name: bookmark-db-data
-
         - name: mongo-sidecar
           # latest is the only available and viable tag, confirm:
           # https://hub.docker.com/r/cvallance/mongo-k8s-sidecar/tags/
@@ -75,7 +74,6 @@ spec:
             requests:
               memory: "128Mi"
               cpu: "250m"
-
   volumeClaimTemplates:
     - metadata:
         name: bookmark-db-data
