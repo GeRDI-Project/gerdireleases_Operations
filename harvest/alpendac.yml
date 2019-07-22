@@ -41,7 +41,7 @@ spec:
               name: alpendac-harvester-cache
       containers:
         - name: alpendac-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/alpendac:0.5.0-test5
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/alpendac:0.6.0-test1
           ports:
             - containerPort: 8080
           env:
