@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: docker-registry.gerdi.research.lrz.de:5043/store/jhub:0.4.0-test5
+          image: docker-registry.gerdi.research.lrz.de:5043/store/jhub:0.4.2-RC1
           resources:
             requests:
               cpu: "0"
