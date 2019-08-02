@@ -40,6 +40,8 @@ spec:
               name: jhub-nfs-volumes
       imagePullSecrets:
         - name: lrz-docker-registry-secret
+      securityContext:
+        runAsUser: 0
       volumes:
         - name: jhub-nfs-volumes
           hostPath:
