@@ -25,9 +25,16 @@ spec:
     spec:
       containers:
         - name: edge
-          image: zuul-server
+          image: docker-registry.gerdi.research.lrz.de:5043/ops/zuul:0.6.0-test1
           ports:
             - containerPort: 8765
+          resources:
+            requests:
+              cpu: "0"
+              memory: "0"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
 ---
 apiVersion: v1
 kind: Service
