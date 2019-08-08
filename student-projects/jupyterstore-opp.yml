@@ -36,7 +36,7 @@ spec:
           ports:
             - containerPort: 5678
           volumeMounts:
-            - mountPath: /mnt/nfs/nfs-test/
+            - mountPath: /local/persistent-volumes/
               name: jhub-nfs-volumes
       imagePullSecrets:
         - name: lrz-docker-registry-secret
@@ -45,7 +45,7 @@ spec:
       volumes:
         - name: jhub-nfs-volumes
           hostPath:
-            path: /mnt/nfs/nfs-test
+            path: /mnt/nfs/nfs-c
 ---
 apiVersion: v1
 kind: Service
