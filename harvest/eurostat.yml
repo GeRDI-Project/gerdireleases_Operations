@@ -41,7 +41,7 @@ spec:
               name: eurostat-harvester-cache
       containers:
         - name: eurostat-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/eurostat:0.5.0-test2
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/eurostat:0.6.0-test1
           ports:
             - containerPort: 8080
           volumeMounts:
