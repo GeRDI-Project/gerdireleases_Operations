@@ -1,4 +1,4 @@
-# Copyright 2019 Nelson Tavares de Sousa ntd@informatik.uni-kiel.de
+# Copyright 2019 Björn Vonheiden stu202077@mail.uni-kiel.de
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,17 +15,19 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: jhub-store
+  name: zuul-server
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: jhub-store
+        app: zuul-server
     spec:
       containers:
-        - name: api
-          image: docker-registry.gerdi.research.lrz.de:5043/store/jhub:0.4.2-RC1
+        - name: edge
+          image: docker-registry.gerdi.research.lrz.de:5043/operations/zuul:0.6.0-test1
+          ports:
+            - containerPort: 8765
           resources:
             requests:
               cpu: "0"
@@ -33,30 +35,14 @@ spec:
             limits:
               cpu: "1"
               memory: "1Gi"
-          ports:
-            - containerPort: 5678
-          volumeMounts:
-            - mountPath: /mnt/nfs/nfs-test/
-              name: jhub-nfs-volumes
-      imagePullSecrets:
-        - name: lrz-docker-registry-secret
-      securityContext:
-        runAsUser: 0
-      volumes:
-        - name: jhub-nfs-volumes
-          hostPath:
-            path: /mnt/nfs/nfs-test
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: jhub-store
-  labels:
-    name: Jupyter_Hub
-    type: store
+  name: zuul-server
 spec:
   ports:
-    - port: 5678
+    - port: 8765
       protocol: TCP
   selector:
-    app: jhub-store
+    app: zuul-server
