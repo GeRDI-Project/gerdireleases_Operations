@@ -35,6 +35,8 @@ spec:
             limits:
               cpu: "1"
               memory: "1Gi"
+      imagePullSecrets:
+        - name: lrz-docker-registry-secret
 ---
 apiVersion: v1
 kind: Service
