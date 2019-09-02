@@ -51,9 +51,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: jhub-store
-  labels:
-    name: Jupyter_Hub
+  annotations:
     type: store
+    name: Jupyter Hub
 spec:
   ports:
     - port: 5678
