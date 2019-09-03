@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: edge
-          image: docker-registry.gerdi.research.lrz.de:5043/operations/zuul:0.6.0-test5
+          image: docker-registry.gerdi.research.lrz.de:5043/operations/zuul:0.6.0-test6
           ports:
             - containerPort: 8765
           resources:
