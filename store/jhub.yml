@@ -54,6 +54,7 @@ metadata:
   annotations:
     type: store
     name: Jupyter Hub
+    ui: jhub
 spec:
   ports:
     - port: 5678
