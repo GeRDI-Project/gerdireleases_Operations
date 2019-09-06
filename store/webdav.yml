@@ -45,6 +45,7 @@ metadata:
   annotations:
     type: store
     name: WebDAV
+    serviceid: webdav
 spec:
   clusterIP: 10.222.21.101
   ports:
