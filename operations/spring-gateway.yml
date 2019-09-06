@@ -27,7 +27,7 @@ spec:
         - name: edge
           image: docker-registry.gerdi.research.lrz.de:5043/operations/spring-gateway:0.6.0-test1
           ports:
-            - containerPort: 8765
+            - containerPort: 8080
           resources:
             requests:
               cpu: "0"
@@ -44,7 +44,7 @@ metadata:
   name: spring-gateway-server
 spec:
   ports:
-    - port: 8765
+    - port: 8080
       protocol: TCP
   selector:
     app: spring-gateway-server
