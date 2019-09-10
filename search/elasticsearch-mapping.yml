@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: elasticsearch-mapping
-          image: docker-registry.gerdi.research.lrz.de:5043/search/elasticsearch-mapping:0.6.0-test1
+          image: docker-registry.gerdi.research.lrz.de:5043/search/elasticsearch-mapping:0.6.0-test2
           env:
             - name: HOST
               value: http://elasticsearch-data.default.svc.cluster.local:9200
