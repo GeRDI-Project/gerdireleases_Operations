@@ -15,13 +15,13 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: webdav-store-opp
+  name: webdav-store-opp-benckmark
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: webdav-store-opp
+        app: webdav-store-opp-benckmark
     spec:
       containers:
         - name: api
@@ -41,10 +41,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: webdav-store-opp
+  name: webdav-store-opp-benckmark
 spec:
   ports:
     - port: 5678
       protocol: TCP
   selector:
-    app: webdav-store-opp
+    app: webdav-store-opp-benckmark
