@@ -15,13 +15,13 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: jhub-store-opp-benckmark
+  name: jhub-store-opp-benchmark
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: jhub-store-opp-benckmark
+        app: jhub-store-opp-benchmark
     spec:
       containers:
         - name: api
@@ -50,10 +50,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: jhub-store-opp-benckmark
+  name: jhub-store-opp-benchmark
 spec:
   ports:
     - port: 5678
       protocol: TCP
   selector:
-    app: jhub-store-opp-benckmark
+    app: jhub-store-opp-benchmark
