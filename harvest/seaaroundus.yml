@@ -41,7 +41,7 @@ spec:
               name: seaaroundus-harvester-cache
       containers:
         - name: seaaroundus-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/seaaroundus:0.4.0-test10
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/seaaroundus:0.6.0-test1
           ports:
             - containerPort: 8080
           volumeMounts:
