@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: docker-registry.gerdi.research.lrz.de:5043/student-projects/webdav-opp-time:0.6.0-test18
+          image: docker-registry.gerdi.research.lrz.de:5043/student-projects/webdav-opp-time:0.6.0-test19
           resources:
             requests:
               cpu: "0"
