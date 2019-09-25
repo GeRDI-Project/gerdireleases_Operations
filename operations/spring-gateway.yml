@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: edge
-          image: docker-registry.gerdi.research.lrz.de:5043/operations/spring-gateway:0.6.0-test3
+          image: docker-registry.gerdi.research.lrz.de:5043/operations/spring-gateway:0.6.0-test4
           ports:
             - containerPort: 8080
           resources:
