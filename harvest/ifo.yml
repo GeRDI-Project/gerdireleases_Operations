@@ -41,7 +41,7 @@ spec:
               name: ifo-harvester-cache
       containers:
         - name: ifo-harvester
-          image: docker-registry.gerdi.research.lrz.de:5043/harvest/ifo:0.6.0-test1
+          image: docker-registry.gerdi.research.lrz.de:5043/harvest/ifo:0.6.0-test2
           ports:
             - containerPort: 8080
           volumeMounts:
